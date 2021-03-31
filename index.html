@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Alan's Website</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+	<!-- p5.js setup start -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js">
+
+	</script>
+	<script defer src="script.js">
+	</script>
+	<script defer src="fb_io.js">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js">
+
+	</script>
+	<!-- p5.js setup end -->
+
+	<!-- firebase start ----------------------------------------------------->
+	<!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
+
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js">
+
+	</script>
+	<!-- Add Firebase products that you want to use -->
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js">
+
+	</script>
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js">
+
+	</script>
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js">
+
+	</script>
+	<!-- firebase end ------------------------------------------------------->
+
+</head>
+
+<body class="w3-container w3-center">
+
+	<section id="s_loginPage">
+		<h1 class="hHeight">Login Page</h1>
+		<div class="w3-container">
+			<p class="b_loginPage"><button class="b_login w3-button w3-green w3-xxlarge" onclick="lp_login()">LOGIN</button>
+				<button class="b_exit w3-button w3-red w3-xxlarge" onclick="lp_exit()">EXIT</button></p>
+		</div>
+		</section>
+
+		<section id="s_homePage">
+			<h1 class="hHeight">Home Page</h1>
+			<div class="w3-row">
+				<div class="w3-quarter bHeight w3-light-green">
+					<p>
+						<button class ="b_screenChange w3-button" onclick="b_ballGame()">Ball Game</button>
+					</p>
+				</div>
+				<div class="w3-threequarter bHeight w3-light-blue">
+				</div>
+		</section>
+
+		<section id="s_registerPage">
+			<h1 class="hHeight">Register Page</h1>
+						<div class="w3-row">
+				<div class="w3-quarter bHeight w3-light-green">
+					<p>
+						<button class ="b_screenChange w3-button" onclick="b_ballGame()">Ball Game</button>
+					</p>
+				</div>
+				<div class="w3-threequarter bHeight w3-light-blue">
+				</div>
+		</section>
+
+		<section id="s_gamePage">
+			<h1 class="hHeight">Game Page</h1>
+			<div class="w3-row"> 
+				<div class="w3-quarter bHeight w3-light-green">
+					<p>
+						<button class="b_startBallGame w3-button" oncick="bg_start">Start</button>
+					</p>
+				</div>
+				<div class="w3-threequarter bHeight w3-light-blue">
+				</div>
+			</div>
+
+  </body>
+</html>

@@ -1,0 +1,31 @@
+.b_loginPage{
+	margin: auto;
+	padding:15%;
+}
+
+#s_loginPage{
+	display: block;
+	height:100vh;
+}
+#s_homePage{
+	display:none;
+	height:100vh;
+}
+#s_gamePage{
+	display:none;
+}
+#s_registerPage{
+	display:none;
+}
+.bHeight{
+	height:80vh;
+}
+.hHeight{
+	height:10vh;
+}
+canvas{
+	display:block;
+}
+
+
+
