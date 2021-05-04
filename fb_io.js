@@ -1,6 +1,6 @@
 /**************************************************************/
 // fb_io.js
-// Written by ???   2021
+// Written by Mr Gillies   2021
 /**************************************************************/
 
 /**************************************************************/
@@ -10,22 +10,21 @@
 // Input:  n/a
 // Return: n/a
 /**************************************************************/
+
 function fb_initialise() {
 	console.log('fb_initialise: ');
-
 	var firebaseConfig = {
-		apiKey: "AIzaSyC2vyzNOz41CadJN-xV7yPTeI5OlXI_y8I",
-		authDomain: "comp-2021-alan-mcilwaine.firebaseapp.com",
-		projectId: "comp-2021-alan-mcilwaine",
-		storageBucket: "comp-2021-alan-mcilwaine.appspot.com",
-		messagingSenderId: "880314377383",
-		appId: "1:880314377383:web:e6d9cd6fdf3c85291be782",
-		measurementId: "G-V4LYCQY388"
+		apiKey: "AIzaSyDzg8NP8BwOahVbAOL_PGwnpBWO6w7vHsE",
+		authDomain: "comp12-2021-alan-mcilwaine.firebaseapp.com",
+		projectId: "comp12-2021-alan-mcilwaine",
+		storageBucket: "comp12-2021-alan-mcilwaine.appspot.com",
+		messagingSenderId: "118291210896",
+		appId: "1:118291210896:web:7b565dcb6c7a2551fc6e15",
+		measurementId: "G-JNT1JY92E6"
 	};
-
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
-	console.log(firebase);
+	console.log(firebase + " firebase");
 
 	database = firebase.database();
 }
@@ -48,6 +47,10 @@ function fb_login(_dataRec) {
 			_dataRec.name = _user.displayName;
 			_dataRec.photoURL = _user.photoURL;
 			loginStatus = 'logged in';
+			console.log('fb_login: status =' + loginStatus);
+			if (loginStatus = 'logged in') {
+				b_switchScreen();
+			}
 		}
 		else {
 			// user NOT logged in, so redirect to Google login
@@ -81,18 +84,8 @@ function fb_logout() {
 function fb_writeRec(_path, _key, _data) {
 	console.log('fb_WriteRec: path= ' + _path + '  key= ' + _key +
 		'  data= ' + _data.name + '/' + _data.score);
-	writeStatus = "pending..."
-	firebase.database().ref(_path + '/' + _key).set(_data,
-		function (error) {
-			if (error) {
-				writeStatus = "fail"
-				console.log(error);
-			}
-			else {
-				writeStatus = "pass";
-			}
-		})
-	console.log("fb_writeRec exit");
+
+	firebase.database().ref(_path + '/' + _key).set(_data)
 }
 
 /**************************************************************/
@@ -103,7 +96,7 @@ function fb_writeRec(_path, _key, _data) {
 /**************************************************************/
 function fb_readAll(_path, _data) {
 	console.log('fb_readAll: path= ' + _path);
-	readStatus = "pending..."
+	readStatus = "pending...";
 	firebase.database().ref(_path).once("value", gotRecord, readErr);
 
 	function gotRecord(snapshot) {
@@ -145,28 +138,29 @@ function fb_readRec(_path, _key, _data, _processData) {
 	firebase.database().ref(_path + '/' + _key).once("value", gotRecord, readErr);
 
 	function gotRecord(snapshot) {
-		if (snapshot.val() == null) {
-			readStatus = "no record";
+		var dbData = snapshot.val();
+		if (dbData == null) {
+			readStatus = false;
 		} else {
-			readStatus = "pass";
-			var dbData = snapshot.val();
-			_processData(dbData)
+			readStatus = true;
 		}
+		_processData(readStatus, dbData);
 	}
+
 	function readErr(error) {
 		readStatus = 'fail';
 		console.log(error);
 	}
 }
 
-	function userDataProcess(){
-		_data.uid = dbData.uid;
-		_data.name = dbData.name;
-		_data.email = dbData.email;
-		_data.photoURL = dbData.photoURL;
-		_data.score = dbData.score;
+function userDataProcess() {
+	_data.uid = dbData.uid;
+	_data.name = dbData.name;
+	_data.email = dbData.email;
+	_data.photoURL = dbData.photoURL;
+	_data.score = dbData.score;
 
-	}
+}
 
 /**************************************************************/
 //    END OF MODULE

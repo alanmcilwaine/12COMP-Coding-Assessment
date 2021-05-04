@@ -1,0 +1,36 @@
+const DETAILS = "userDetails";
+
+var loginStatus = ' ';
+var readStatus  = ' ';
+var writeStatus = ' ';
+
+var userDetails = {
+  uid:      '',
+  email:    '',
+  name:     '',
+  photoURL: '',
+  score:    ''
+};
+
+var dbArray = [];
+
+function setup(){
+	fb_initialise(); // Connect to firebase 
+
+}
+/**************************************************************/
+// login()
+// Input event; called when user clicks LOGIN button
+// Logs user into firebase using Google login
+// Input:
+// Return:
+/**************************************************************/
+function b_login() {
+  fb_login(userDetails);
+};
+function b_submitRegister(){
+	fb_writeRec(DETAILS, userDetails.uid, userDetails);
+};
+function b_register() {
+	fb_writeRec();
+}

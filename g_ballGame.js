@@ -4,18 +4,18 @@ var radius;
 var i;
 var button;
 
-function setup() {
-	createCanvas(windowWidth, windowHeight);
-	createBall(5);
-	frameRate(60);
-	setInterval(removeBall, 1000);
-}
+// function setup() {
+// 	createCanvas(windowWidth, windowHeight);
+// 	createBall(5);
+// 	frameRate(60);
+// 	setInterval(removeBall, 1000);
+// }
 
-function draw() {
-	background(200);
-	movementBall(2, 2);
+// function draw() {
+// 	background(200);
+// 	movementBall(2, 2);
 
-}
+// }
 
 function createBall(ball_amount) {
 	for (i = 0; i < ball_amount; i++) {
