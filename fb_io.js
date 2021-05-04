@@ -25,7 +25,6 @@ function fb_initialise() {
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
 	console.log(firebase + " firebase");
-
 	database = firebase.database();
 }
 
@@ -48,9 +47,7 @@ function fb_login(_dataRec) {
 			_dataRec.photoURL = _user.photoURL;
 			loginStatus = 'logged in';
 			console.log('fb_login: status =' + loginStatus);
-			if (loginStatus = 'logged in') {
-				b_switchScreen();
-			}
+			fb_readRec(DETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
 		}
 		else {
 			// user NOT logged in, so redirect to Google login
@@ -79,7 +76,7 @@ function fb_logout() {
 // fb_writeRec(_path, _key, _data)
 // Write a specific record & key to the DB
 // Input:  path to write to, the key, data to write
-// Return: 
+// Return:
 /**************************************************************/
 function fb_writeRec(_path, _key, _data) {
 	console.log('fb_WriteRec: path= ' + _path + '  key= ' + _key +
@@ -130,38 +127,60 @@ function fb_readAll(_path, _data) {
 // fb_readRec(_path, _key, _data)
 // Read a specific DB record
 // Input:  path & key of record to read and where to save it
-// Return:  
+// Return:
 /**************************************************************/
 function fb_readRec(_path, _key, _data, _processData) {
 	console.log('fb_readRec: path= ' + _path + '  key= ' + _key);
 	readStatus = "pending..."
 	firebase.database().ref(_path + '/' + _key).once("value", gotRecord, readErr);
-
 	function gotRecord(snapshot) {
-		var dbData = snapshot.val();
-		if (dbData == null) {
+		if (snapshot.val() == null) {
 			readStatus = false;
+			console.log("Read Status: " + readStatus);
+			fb_newUser(_key)
 		} else {
 			readStatus = true;
+			console.log("Read Status: " + readStatus);
+			var dbData = snapshot.val();
+			_processData(dbData, _data);
 		}
-		_processData(readStatus, dbData);
 	}
 
 	function readErr(error) {
-		readStatus = 'fail';
+		readStatus = false;
 		console.log(error);
 	}
 }
 
-function userDataProcess() {
-	_data.uid = dbData.uid;
-	_data.name = dbData.name;
-	_data.email = dbData.email;
-	_data.photoURL = dbData.photoURL;
-	_data.score = dbData.score;
-
+/**************************************************************/
+// fb_newUser
+// Checks if readRec was specifically caused because user is new
+// If true, it will send them to registration page
+// Input: Record _key and if it's null for a uid
+// Return:
+/**************************************************************/
+function fb_newUser(_key){
+	if (_key == userDetails.uid){
+		console.log("New User: => Register Page");
+		b_switchScreen("s_loginPage", "s_registerPage");
+	}
 }
 
+function fb_userDetailsProcess(_userDetails, _data) {
+	_data.uid = _userDetails.uid;
+	_data.name = _userDetails.name;
+	_data.email = _userDetails.email;
+	_data.photoURL = _userDetails.photoURL;
+	_data.score = _userDetails.score;
+	_data.username = _userDetails.username;
+	_data.phone = _userDetails.phone;
+	_data.gender = _userDetails.gender;
+	_data.country = _userDetails.country;
+	_data.addressLine = _userDetails.addressLine;
+	_data.suburb = _userDetails.suburb;
+	_data.city = _userDetails.city;
+	_data.postCode = _userDetails.postCode;
+}
 /**************************************************************/
 //    END OF MODULE
 /**************************************************************/

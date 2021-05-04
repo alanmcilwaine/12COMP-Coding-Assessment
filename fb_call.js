@@ -9,13 +9,24 @@ var userDetails = {
   email:    '',
   name:     '',
   photoURL: '',
-  score:    ''
+  username: '',
+  phone: '',
+  gender: '',
+  country:'',
+  addressLine:'',
+  suburb:'',
+  city:'',
+  postCode:''
+};
+
+var bg_userDetails = {
+  highScore: '',
 };
 
 var dbArray = [];
 
 function setup(){
-	fb_initialise(); // Connect to firebase 
+	fb_initialise(); // Connect to firebase
 
 }
 /**************************************************************/
