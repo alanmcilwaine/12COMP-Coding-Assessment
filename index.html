@@ -35,7 +35,7 @@
 	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js">
 
 	</script>
-	
+
 	<!-- firebase end ------------------------------------------------------->
 	<script defer src="script.js">
 
@@ -97,7 +97,7 @@
  			 <h2>Registration</h2>
 			</div>
 
-			<form class="w3-container">
+			<form class="w3-container" id="f_register">
 				<label>Username*</label>
 				<input class="w3-input" id ="i_uName" type="text" required name="username" placeholder="Username">
 
@@ -127,7 +127,7 @@
 				<label>Post Code</label>
 				<input class="w3-input" id="i_postCode" type="number" placeholder="Post Code">
 
-				<button class="w3-button w3-blue" onclick="b_register()">Register</button>
+				<button class="w3-button w3-blue" type="submit" onclick="b_register()">Register</button>
 			</form>
 		</div>
 	</section>

@@ -166,6 +166,13 @@ function fb_newUser(_key){
 	}
 }
 
+/**************************************************************/
+// fb_userDetailsProcess
+// Saves user details from firebase into an object
+// Input: _data is where the firebase data is being saved to an Object
+// _userDetails is the data from the firebase
+// Return:
+/**************************************************************/
 function fb_userDetailsProcess(_userDetails, _data) {
 	_data.uid = _userDetails.uid;
 	_data.name = _userDetails.name;
