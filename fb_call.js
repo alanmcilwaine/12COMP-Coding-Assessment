@@ -39,9 +39,6 @@ function setup(){
 function b_login() {
   fb_login(userDetails);
 };
-function b_submitRegister(){
-	fb_writeRec(DETAILS, userDetails.uid, userDetails);
-};
 function b_register() {
-	fb_writeRec();
+  reg_regDetailsEntered();
 }

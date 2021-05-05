@@ -1,4 +1,4 @@
-function b_submitRegister() {
+function reg_regDetailsEntered() {
   console.log('reg_regDetailsEntered');
 
   // Save player1's details from the form into your details object
@@ -6,10 +6,14 @@ function b_submitRegister() {
   //    its currently details                                           //<=======
   userDetails.username     =        reg_getFormItemValue("f_register", 0);       //<=======
   userDetails.phone        = Number(reg_getFormItemValue("f_register", 1));      //<=======
-  userDetails.gender = reg_getFormItemValue()
-
-
+  userDetails.gender = reg_getFormItemValue("f_register", 2);
+  userDetails.country = reg_getFormItemValue("f_register", 3);
+  userDetails.addressLine = reg_getFormItemValue("f_register", 4);
+  userDetails.suburb = reg_getFormItemValue("f_register", 5);
+  userDetails.city = reg_getFormItemValue("f_register", 6);
+  userDetails.postCode = Number(reg_getFormItemValue("f_register", 7));
   console.table(userDetails);
+  fb_writeRec(DETAILS, userDetails.uid, userDetails);
   // call your function to write to details record firebase             //<=======
 }
 
