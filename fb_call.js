@@ -27,7 +27,7 @@ var dbArray = [];
 
 function setup(){
 	fb_initialise(); // Connect to firebase
-
+	console.log("setup being run")
 }
 /**************************************************************/
 // login()
@@ -38,7 +38,8 @@ function setup(){
 /**************************************************************/
 function b_login() {
   fb_login(userDetails);
-};
+}
 function b_register() {
-  reg_regDetailsEntered();
+   reg_regDetailsEntered();
+	 console.log("b_register: Called");
 }
