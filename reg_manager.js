@@ -14,7 +14,7 @@ function reg_regDetailsEntered() {
   userDetails.postCode = Number(reg_getFormItemValue("f_register", 7));
   console.table(userDetails);
   fb_writeRec(DETAILS, userDetails.uid, userDetails);
-  // call your function to write to details record firebase             //<=======
+  b_switchScreen("s_registerPage", "s_homePage");
 }
 
 

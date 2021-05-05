@@ -142,6 +142,7 @@ function fb_readRec(_path, _key, _data, _processData) {
 			console.log("Read Status: " + readStatus);
 			var dbData = snapshot.val();
 			_processData(dbData, _data);
+			b_switchScreen("s_loginPage", "s_homePage")
 		}
 	}
 
