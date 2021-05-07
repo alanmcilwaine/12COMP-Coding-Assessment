@@ -35,7 +35,19 @@
 	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js">
 
 	</script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+	 crossorigin="anonymous">
 
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ"
+	 crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+	 crossorigin="anonymous">
+
+	</script>
 	<!-- firebase end ------------------------------------------------------->
 	<script defer src="script.js">
 
@@ -50,8 +62,10 @@
 
 	</script>
 	<script defer src="gm_io.js">
+
 	</script>
 	<script defer src="reg_manager.js">
+
 	</script>
 </head>
 
@@ -73,18 +87,17 @@
 
 <!-- Home Page -->
 		<section id="s_homePage">
-			<!-- Home Page Header -->
-			<h1 class="hHeight">Home Page</h1>
-			<div class="w3-row">
-				<div class="w3-quarter bHeight w3-light-green">
-					<p>
-						<!-- Ball Game Button -->
-						<button class ="b_screenChange w3-button" onclick="b_ballGame()">Ball Game</button>
-					</p>
-				</div>
+			<div class="jumbotron text-center"><h1>Alan's Game Website<h1>
+				<button type="button" class="btn-lg btn-default">Ball Game</button></div> 
+				<div class="col-sm-4">
+					 <div class="w3-card">
+						 <p id="p_name"></p>
+						 <img id="image_user" src="img.png">
+						 </div>
+						 </div>
+				<div class="col-sm-8">
 
-				<div class="w3-threequarter bHeight w3-light-blue">
-				</div>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisl erat, vehicula et velit vitae, aliquet ornare erat. Sed rhoncus quam nec erat vehicula, vitae condimentum nisi condimentum. Morbi in quam blandit, suscipit ante id, tempus nisl. Etiam vel varius purus. Aenean condimentum eget nisi ac bibendum. Proin efficitur ipsum vitae odio dapibus, sit amet dapibus mauris viverra. Mauris sit amet nibh vel ex convallis cursus. Aenean luctus elit et magna condimentum scelerisque. Etiam semper sem et mauris dignissim condimentum non ac eros. Morbi sagittis quis erat porta laoreet. Etiam non eros imperdiet nisl molestie suscipit et tincidunt nulla. Nullam sed scelerisque ipsum. Morbi varius, nisi at laoreet volutpat, mi eros rutrum libero, ut cursus erat odio nec urna. Suspendisse mollis auctor accumsan. Nunc at quam eu ligula convallis bibendum euismod nec odio. Praesent iaculis tellus et tincidunt gravida.</div>
 		</section>
 <!-- Home Page End  -->
 
@@ -101,6 +114,9 @@
 			<form class="w3-container" id="f_register">
 				<label>Username*</label>
 				<input class="w3-input" id ="i_uName" type="text" required name="username" placeholder="Username">
+
+				<label>Age*</label>
+				<input class="w3-input" id = "i_age" type="number" required name ="age" placeholder="Age">
 
 				<label>Phone Number*</label>
 				<input class="w3-input" id="i_pNumber" type="number" required name="phone" placeholder="Phone Number">
@@ -197,8 +213,8 @@
 			<div class="w3-row">
 				<div class="w3-quarter bHeight w3-light-green">
 					<p>
-						<button class="b_screenChange w3-button" onclick="b_switchScreen(s_gamePage,s_homePage)">Back</button>
-						<button class="b_startBallGame w3-button" onclick="bg_start()">Start</button>
+						<button class="b_screenChange w3-button" onclick="b_gamePageBack()">Back</button>
+						<button class="b_startBallGame w3-button" onclick="b_startBallGame()">Start</button>
 					</p>
 				</div>
 				<div class="w3-threequarter bHeight w3-light-blue">

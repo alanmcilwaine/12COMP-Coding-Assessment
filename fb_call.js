@@ -10,6 +10,7 @@ var userDetails = {
   name:     '',
   photoURL: '',
   username: '',
+	age: '',
   phone: '',
   gender: '',
   country:'',
@@ -42,4 +43,11 @@ function b_login() {
 function b_register() {
    reg_regDetailsEntered();
 	 console.log("b_register: Called");
+}
+function b_ballGame(){
+	b_switchScreen("s_homePage", "s_gamePage");
+}
+function b_gamePageBack(){
+	b_switchScreen("s_gamePage", "s_homePage");
+
 }

@@ -142,7 +142,6 @@ function fb_readRec(_path, _key, _data, _processData) {
 			console.log("Read Status: " + readStatus);
 			var dbData = snapshot.val();
 			_processData(dbData, _data);
-			b_switchScreen("s_loginPage", "s_homePage")
 		}
 	}
 
@@ -187,6 +186,7 @@ function fb_userDetailsProcess(_userDetails, _data) {
 	_data.suburb = _userDetails.suburb;
 	_data.city = _userDetails.city;
 	_data.postCode = _userDetails.postCode;
+	b_switchScreen("s_loginPage", "s_homePage")
 }
 /**************************************************************/
 //    END OF MODULE
