@@ -45,16 +45,14 @@ function fb_login(_dataRec) {
 			_dataRec.email = _user.email;
 			_dataRec.name = _user.displayName;
 			_dataRec.photoURL = _user.photoURL;
-			loginStatus = 'logged in';
-			console.log('fb_login: status =' + loginStatus);
-			fb_readRec(DETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
+			f_login = true;
+			fb_readRec(USERDETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
+			fb_readRec(BGDETAILS, userDetails.uid, bg_userDetails, fb_userGameDetailsProcess);
 		}
 		else {
 			// user NOT logged in, so redirect to Google login
 			_dataRec = {};
-			loginStatus = 'logged out';
-			console.log('fb_login: status = ' + loginStatus);
-
+			f_login = false;
 			var provider = new firebase.auth.GoogleAuthProvider();
 			firebase.auth().signInWithRedirect(provider);
 		}
@@ -109,8 +107,7 @@ function fb_readAll(_path, _data) {
 			for (i = 0; i < dbKeys.length; i++) {
 				var key = dbKeys[i]
 				_data.push({
-					name: dbData[key].name,
-					score: dbData[key].score
+					
 				})
 
 			}
@@ -177,7 +174,6 @@ function fb_userDetailsProcess(_userDetails, _data) {
 	_data.name = _userDetails.name;
 	_data.email = _userDetails.email;
 	_data.photoURL = _userDetails.photoURL;
-	_data.score = _userDetails.score;
 	_data.username = _userDetails.username;
 	_data.phone = _userDetails.phone;
 	_data.gender = _userDetails.gender;
@@ -186,7 +182,13 @@ function fb_userDetailsProcess(_userDetails, _data) {
 	_data.suburb = _userDetails.suburb;
 	_data.city = _userDetails.city;
 	_data.postCode = _userDetails.postCode;
+	console.log("Hi");
+	console.log(_userDetails)
 	b_switchScreen("s_loginPage", "s_homePage")
+}
+function fb_userGameDetailsProcess(_userDetails, _data){
+	_data.highScore = _userDetails.highScore;
+	console.log(_userDetails);
 }
 /**************************************************************/
 //    END OF MODULE
