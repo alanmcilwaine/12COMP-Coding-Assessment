@@ -1,5 +1,5 @@
 const USERDETAILS = "userDetails";
-const BGDETAILS = "bg_userDetails";
+const BGDETAILS = "userStats";
 // flag_login
 var f_login = false;
 var readStatus  = ' ';

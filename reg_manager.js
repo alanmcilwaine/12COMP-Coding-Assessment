@@ -14,7 +14,7 @@ function reg_regDetailsEntered() {
   userDetails.city = reg_getFormItemValue("f_register", 7);
   userDetails.postCode = Number(reg_getFormItemValue("f_register", 8));
   console.table(userDetails);
-  fb_writeRec(DETAILS, userDetails.uid, userDetails);
+  fb_writeRec(USERDETAILS, userDetails.uid, userDetails);
 	console.log(userDetails.name);
   b_switchScreen("s_registerPage", "s_homePage");
 }

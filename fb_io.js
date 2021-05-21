@@ -77,9 +77,15 @@ function fb_logout() {
 // Return:
 /**************************************************************/
 function fb_writeRec(_path, _key, _data) {
-	console.log('fb_WriteRec: path= ' + _path + '  key= ' + _key +
-		'  data= ' + _data.name + '/' + _data.score);
-	firebase.database().ref(_path + '/' + _key).set(_data)
+	firebase.database().ref(_path + '/' + _key).set(_data, writeErr);
+
+	//write record error
+	function writeErr(error) {
+		if (error) {
+			writeStatus = false;
+			console.log("Write error: " + error);
+		}
+	}
 }
 
 /**************************************************************/
@@ -88,7 +94,7 @@ function fb_writeRec(_path, _key, _data) {
 // Input:  path to read from and where to save it
 // Return:
 /**************************************************************/
-function fb_readAll(_path, _data) {
+function fb_readAll(_path, _data, _processData) {
 	console.log('fb_readAll: path= ' + _path);
 	readStatus = "pending...";
 	firebase.database().ref(_path).once("value", gotRecord, readErr);
@@ -98,26 +104,20 @@ function fb_readAll(_path, _data) {
 			readStatus = "no record";
 		} else {
 			readStatus = "pass";
-			var dbData = snapshot.val();
-			console.log(dbData);
-			var dbKeys = Object.keys(dbData);
-			console.log(dbKeys)
-			var key = dbKeys[0];
-			console.log(dbData[key])
-			for (i = 0; i < dbKeys.length; i++) {
-				var key = dbKeys[i]
-				_data.push({
-					
-				})
-
-			}
+			var dbData = snapshot;
+			_processData(readStatus,snapshot, _data);
 		}
 	}
+
 	function readErr(error) {
-		readStatus = 'fail';
-		console.log(error);
+		if (error) {
+			readStatus = "fail";
+			console.log("Read Error: " + error)
+		}
 	}
 }
+
+
 
 /**************************************************************/
 // fb_readRec(_path, _key, _data)
@@ -137,8 +137,8 @@ function fb_readRec(_path, _key, _data, _processData) {
 		} else {
 			readStatus = true;
 			console.log("Read Status: " + readStatus);
-			var dbData = snapshot.val();
-			_processData(dbData, _data);
+			// var dbData = snapshot.val();
+			_processData(readStatus, snapshot, _data);
 		}
 	}
 
@@ -155,8 +155,8 @@ function fb_readRec(_path, _key, _data, _processData) {
 // Input: Record _key and if it's null for a uid
 // Return:
 /**************************************************************/
-function fb_newUser(_key){
-	if (_key == userDetails.uid){
+function fb_newUser(_key) {
+	if (_key == userDetails.uid) {
 		console.log("New User: => Register Page");
 		b_switchScreen("s_loginPage", "s_registerPage");
 	}
@@ -169,24 +169,25 @@ function fb_newUser(_key){
 // _userDetails is the data from the firebase
 // Return:
 /**************************************************************/
-function fb_userDetailsProcess(_userDetails, _data) {
-	_data.uid = _userDetails.uid;
-	_data.name = _userDetails.name;
-	_data.email = _userDetails.email;
-	_data.photoURL = _userDetails.photoURL;
-	_data.username = _userDetails.username;
-	_data.phone = _userDetails.phone;
-	_data.gender = _userDetails.gender;
-	_data.country = _userDetails.country;
-	_data.addressLine = _userDetails.addressLine;
-	_data.suburb = _userDetails.suburb;
-	_data.city = _userDetails.city;
-	_data.postCode = _userDetails.postCode;
+function fb_userDetailsProcess(_result,_userDetails, _data) {
+	var dbData = _userDetails.val();
+	_data.uid = dbData.uid;
+	_data.name = dbData.name;
+	_data.email = dbData.email;
+	_data.photoURL = dbData.photoURL;
+	_data.username = dbData.username;
+	_data.phone = dbData.phone;
+	_data.gender = dbData.gender;
+	_data.country = dbData.country;
+	_data.addressLine = dbData.addressLine;
+	_data.suburb = dbData.suburb;
+	_data.city = dbData.city;
+	_data.postCode = dbData.postCode;
 	console.log("Hi");
-	console.log(_userDetails)
+	console.log(dbData)
 	b_switchScreen("s_loginPage", "s_homePage")
 }
-function fb_userGameDetailsProcess(_userDetails, _data){
+function fb_userGameDetailsProcess(_userDetails, _data) {
 	_data.highScore = _userDetails.highScore;
 	console.log(_userDetails);
 }

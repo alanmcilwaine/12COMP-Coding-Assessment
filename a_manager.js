@@ -83,7 +83,7 @@ function ad_user() {
 	document.getElementById("b_adHome").style.backgroundColor = "grey";
 	document.getElementById("b_adBB").style.backgroundColor = "grey";
 	// ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
-	fb_readAll(USERDETAILS, ad_processUSERReadAll);                            //<=======
+	fb_readAll(USERDETAILS,'', ad_processUSERReadAll);                            //<=======
 }
 
 /**************************************************************/
@@ -100,7 +100,7 @@ function ad_BB() {
 	document.getElementById("b_adUser").style.backgroundColor = "grey";
 	document.getElementById("b_adHome").style.backgroundColor = "grey";
 	// ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
-	fb_readAll(BGDETAILS, ad_processBBReadAll);                                   //<=======
+	fb_readAll(BGDETAILS, '', ad_processBBReadAll);                                   //<=======
 }
 
 /**************************************************************/
@@ -117,7 +117,7 @@ function ad_processUSERReadAll(_result, _dbRec) {
 	var childData;
 	var ad_adminArray = [];
 
-	if (_result == 'OK') {
+	if (_result == 'pass') {
 		_dbRec.forEach(function (childSnapshot) {
 			childKey = childSnapshot.key;
 			childData = childSnapshot.val();
@@ -147,7 +147,7 @@ function ad_processUSERReadAll(_result, _dbRec) {
 		//  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
 		//  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
 		ad_displayAll("t_userData", ad_adminArray, true,
-			"s_homePage", "s_gamePage", "s_adminPage", 11, DETAILS);        //<=======
+			"s_homePage", "s_gamePage", "s_adminPage", 11, USERDETAILS);        //<=======
 	}
 }
 
@@ -165,7 +165,7 @@ function ad_processBBReadAll(_result, _dbRec) {
 	var childData;
 	var ad_adminArray = [];
 
-	if (_result == 'OK') {
+	if (_result == 'pass') {
 		_dbRec.forEach(function (childSnapshot) {
 			childKey = childSnapshot.key;
 			childData = childSnapshot.val();
@@ -184,10 +184,10 @@ function ad_processBBReadAll(_result, _dbRec) {
 		//  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
 		//  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
 		ad_displayAll("t_userData", ad_adminArray, true, "", "", "",
-			1, BBDETAILS);                                                //<=======
+			1, BGDETAILS);                                                //<=======
 	} else if (_result == 'n/a') {
 		ad_displayAll("t_userData", ad_adminArray, true, "", "", "",
-			1, BBDETAILS);                                                //<=======
+			1, BGDETAILS);                                                //<=======
 	}
 }
 
@@ -454,7 +454,7 @@ function ad_clickEditCell(_tableId, _item, _path) {
 
 			var data = {};
 			var rtn = [];
-			rtn = vd_userInput(_dbFieldName, td.innerHTML);
+			rtn = ad_userInput(_dbFieldName, td.innerHTML);
 			if (rtn[0]) {        // User input validated ok?
 				data[_dbFieldName] = rtn[1];
 				console.log("finishTdEdit: td.innerHTML = " + rtn[1] +
