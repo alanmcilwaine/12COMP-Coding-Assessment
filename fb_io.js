@@ -2,6 +2,36 @@
 // fb_io.js
 // Written by Mr Gillies   2021
 /**************************************************************/
+const USERDETAILS = "userDetails";
+const BBDETAILS = "userStats";
+const USERROLES = "userRoles";
+// flag_login
+var loginFlag = false;
+var readStatus  = ' ';
+var writeStatus = ' ';
+
+var userDetails = {
+  uid:      '',
+  email:    '',
+  name:     '',
+  photoURL: '',
+  username: '',
+	age: '',
+  phone: '',
+  gender: '',
+  country:'',
+  addressLine:'',
+  suburb:'',
+  city:'',
+  postCode:''
+};
+
+var userStats = {
+  highScore: '',
+};
+
+var dbArray = [];
+
 
 /**************************************************************/
 // fb_initialise()
@@ -34,45 +64,51 @@ function fb_initialise() {
 // Input:  to store user info in
 // Return: n/a
 /**************************************************************/
-function fb_login(_dataRec) {
+function fb_login() {
 	console.log("Function: fb_login");
-	firebase.auth().onAuthStateChanged(newLogin);
-
-	function newLogin(_user) {
-		if (_user) {
-			console.log("Function: newLogin");
-			console.log("User has signed in");
-			// user is signed in
-			_dataRec.uid = _user.uid;
-			_dataRec.email = _user.email;
-			_dataRec.name = _user.displayName;
-			_dataRec.photoURL = _user.photoURL;
-			f_login = true;
-			fb_readRec(USERDETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
-			fb_readRec(USERROLES, userDetails.uid, '', fb_checkAdmin);
-			fb_readRec(BGDETAILS, userDetails.uid, userStats, fb_userGameDetailsProcess);
-		}
-		else {
-			console.log("Function: newLogin");
-			console.log("User has NOT signed in. Redirecting...");
-			// user NOT logged in, so redirect to Google login
-			_dataRec = {};
-			f_login = false;
-			var provider = new firebase.auth.GoogleAuthProvider();
-			firebase.auth().signInWithRedirect(provider);
-		}
-	}
+	var userInfo = firebase.auth().currentUser;
+	firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+		console.log("Function: newLogin");
+		console.log("User has signed in");
+		// user is signed in
+		userDetails.uid = user.uid;
+		userDetails.email = user.email;
+		userDetails.name = user.displayName;
+		userDetails.photoURL = user.photoURL;
+		loginFlag = true;
+		fb_readRec(USERROLES, userDetails.uid, '', fb_checkAdmin);
+		fb_readRec(USERDETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
+		fb_readRec(BBDETAILS, userDetails.uid, userStats, fb_userGameDetailsProcess);
+  } else {
+    // No user is signed in.
+		console.log("Function: newLogin");
+		console.log("User has NOT signed in. Redirecting...");
+		// user NOT logged in, so redirect to Google login
+		_dataRec = {};
+		loginFlag = false;
+		var provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithRedirect(provider);
+  }
+	});
 }
+
 function fb_checkAdmin(_result, _dbData){
+	console.log("Function: fb_checkAdmin");
 	var dbData = _dbData.val();
 	if (_result == "Record found"){
+		console.log("userRole Record Found...")
 		if (dbData == 'admin'){
-			document.getElementById('ad_button').style.display = "block";
-		}else {
-			document.getElementById('ad_button').style.display = "none";
+			console.log(userDetails.name + " is an admin");
+			document.getElementById('b_admin').style.display = "block";
 		}
+	}else{
+			console.log(userDetails.name + " is not an admin");
+			document.getElementById('b_admin').style.display = "none";
 	}
 }
+
+
 /**************************************************************/
 // fb_logout()
 // Logout of Firebase
@@ -172,7 +208,7 @@ function fb_readRec(_path, _key, _data, _processData) {
 // Return:
 /**************************************************************/
 function fb_newUser(_key) {
-	b_switchScreen("s_loginPage", "s_registerPage")
+	ui_switchScreen("s_loginPage", "s_registerPage")
 }
 
 /**************************************************************/
@@ -200,14 +236,15 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 	_data.city = dbData.city;
 	_data.postCode = dbData.postCode;
 	console.log(dbData)
-	b_switchScreen("s_loginPage", "s_homePage")
+	//Change this switch screen when editing future parts of the website
+	ui_switchScreen("s_loginPage", "s_homePage")
 	}
 }
 
 function fb_userGameDetailsProcess(_result, _userDetails, _data) {
 	var dbData = _userDetails.val();
 	if (_result == "No record"){
-		fb_writeRec(BGDETAILS/highScore, userDetails.uid, 0);
+		fb_writeRec(BBDETAILS, userDetails.uid, highScore);
 	}else{
 	_data.highScore = dbData.highScore;
 	console.table(_userDetails);

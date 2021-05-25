@@ -1,7 +1,7 @@
-<!-- index.html 
+<!-- index.html
 written by Alan McIlwaine Term 1, 2021
-v1 added a login page 
-v2 added a registration page 
+v1 added a login page
+v2 added a registration page
 v3 improved registration read/write to database  -->
 <!DOCTYPE html>
 <html>
@@ -16,8 +16,7 @@ v3 improved registration read/write to database  -->
 	<link rel="stylesheet" href="style.css" type="text/css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
 <!-- Setup p5.js -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
@@ -27,10 +26,12 @@ v3 improved registration read/write to database  -->
 	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
-<!-- Setup bootstrap -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 <!-- Setup jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Setup bootstrap -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
 
 <!-- Load .js files -->
 	<script defer src="/fb_io.js"></script>
@@ -41,62 +42,53 @@ v3 improved registration read/write to database  -->
 	<script defer src="/bb_manager.js"></script>
 </head>
 
-<!-- Body start ----------------------------------------------------->
-
+<!-- Body -->
 <body class="w3-container w3-center">
-	<!-- Login Page -->
+<!-- Login Page -->
 	<section id="s_loginPage">
-		<!-- Login Page Header -->
-		<h1 class="hHeight">Login Page</h1>
-		<div class="w3-container">
-			<!-- LOGIN Button -->
-			<p class="b_loginPage"><button class="b_login w3-button w3-green w3-xxlarge" onclick="b_login()">LOGIN</button>
-			<!-- EXIT Button -->
-				<button class="b_exit w3-button w3-red w3-xxlarge" onclick="b_exit()">EXIT</button></p>
+<!-- Login Page Header -->
+		<div id="loginContainer" class="row h-100">
+			<div class="col-sm-12 my-auto">
+				<h1 class="hHeight">Logging you in...</h1>
+				<div class="spinner-border text-primary text-center" id="lp_loading" role="status"></div>
+			</div>
 		</div>
-		</section>
-<!-- Login Page End  -->
+	</section>
 
 <!-- Home Page -->
 		<section id="s_homePage">
 			<div class="jumbotron text-center"><h1>Alan's Game Website<h1></div>
-				<nav class="navbar navbar-dark bg-light">
+				<nav class="navbar navbar-light justify-content-center">
 					<form class="form-inline">
-				<button type="button" class="btn btn-outline-success" onclick="b_ballGame()">Ball Game</button>
-				<button type="button" class="btn btn-outline-warning" id="ad_button" onclick="ad_admin()">Admin</button>
-				</form>
+						<button type="button" class="btn btn-success" onclick="b_bouncingBall()">Bouncing Ball</button>
+						<button type="button" class="btn btn-warning" id="b_admin" onclick="ad_admin()">Admin</button>
+						<button type="button" class="btn btn-danger" id="b_logout" onclick="fb_logout()">Logout</button>
+					</form>
 				</nav>
 				<div class="col-sm-4">
-					 <div class="w3-card">
-						 <p id="p_name"></p>
-						 <img id="image_user" src="img.png">
+					 <div class="card">
+						 <img class="card-img-top" id="i_userImage" src="img.png" alt="User Image">
+						 <div class="card-body">
+							 <h3 id="h_name"></h3>
 						 </div>
-						 </div>
-				<div class="col-sm-8">
-</div>
+					 </div>
+				</div>
+				<div class="col-sm-8"></div>
 		</section>
-<!-- Home Page End  -->
 
-  <!--************************************************************************************
-			REGISTRATION PAGE
-  *************************************************************************************-->
+<!-- Register Page -->
   <section id="s_registerPage">
 		<div class="w3-card-4">
-
 			<div class="w3-container w3-green">
  			 <h2>Registration</h2>
 			</div>
-
 			<form class="w3-container" id="f_register">
 				<label>Username*</label>
-				<input class="w3-input" id ="i_uName" type="text" required name="username" placeholder="Username">
-
+				<input class="w3-input" type="text" required name="username" placeholder="Username">
 				<label>Age*</label>
-				<input class="w3-input" id = "i_age" type="number" required name ="age" placeholder="Age">
-
+				<input class="w3-input" type="number" required name ="age" placeholder="Age">
 				<label>Phone Number*</label>
-				<input class="w3-input" id="i_pNumber" type="number" required name="phone" placeholder="Phone Number">
-
+				<input class="w3-input" type="number" required name="phone" placeholder="Phone Number">
 				<label>Gender</label>
 				<select id="genders" class="w3-select">
 					<option value="" disabled selected>Please choose a gender</option>
@@ -104,83 +96,62 @@ v3 improved registration read/write to database  -->
 					<option value="female">Female</option>
 					<option value="other">Other</option>
 				</select>
-
 				<label>Country</label>
-				<input class="w3-input" id="i_country" type="text" placeholder="Country">
-
+				<input class="w3-input" type="text" placeholder="Country">
 				<label>Address Line</label>
-				<input class="w3-input" id="i_address" type="text" placeholder="Address Line">
-
+				<input class="w3-input" type="text" placeholder="Address Line">
 				<label>Suburb</label>
-				<input class="w3-input" id="i_suburb" type="text" placeholder="Suburb">
-
+				<input class="w3-input" type="text" placeholder="Suburb">
 				<label>City</label>
-				<input class="w3-input" id="i_city" type="text" placeholder="City">
-
+				<input class="w3-input" type="text" placeholder="City">
 				<label>Post Code</label>
-				<input class="w3-input" id="i_postCode" type="number" placeholder="Post Code">
-
-				<button class="w3-button w3-red" type="button" onclick="b_register()">Register</button>
+				<input class="w3-input" type="number" placeholder="Post Code">
+				<button class="w3-button w3-red" type="button" onclick="reg_regDetailsEntered()">Register</button>
 			</form>
 		</div>
 	</section>
-<!-- Registration Page End  -->
-
-  <!--*************************************************************
-			ADMIN PAGE 
-  **************************************************************-->
+<!-- Admin Page -->
   <section id="s_adminPage" class="w3-grey">
     <div class="w3-row">
       <div class="w3-container w3-grey w3-col m10">
         <h1 class="w3-wide">Admin page</h1>
       </div>
     </div>
-    
+
     <nav id="n_admin" class="w3-bar stickyNav">
-      <button id="b_adHome" class="w3-button w3-block w3-col m3 
-                                   w3-medium w3-ripple w3-border" 
-              onclick="ad_home()" value="Submit">home
-	  </button>
-      <button id="b_adUser" class="w3-button w3-block w3-col m3 
-                                   w3-medium w3-ripple w3-small w3-border" 
-              onclick="ad_user()" value="Submit">users
-      </button>
-      <button id="b_adBB" class="w3-button w3-block w3-col m3 
-                                 w3-medium w3-ripple w3-small w3-border" 
-              onclick="ad_BB()" value="Submit">BB
-      </button>
+      <button id="b_adHome" class="w3-button w3-block w3-col m3 w3-medium w3-ripple w3-border" onclick="ad_home()" value="Submit">home</button>
+      <button id="b_adUser" class="w3-button w3-block w3-col m3 w3-medium w3-ripple w3-small w3-border" onclick="ad_user()" value="Submit">users</button>
+      <button id="b_adBB" class="w3-button w3-block w3-col m3 w3-medium w3-ripple w3-small w3-border" onclick="ad_BB()" value="Submit">BB</button>
     </nav>
-      
+
     <div>
-      <div id="d_admin" class="w3-table-all w3-small w3-light-grey 
-                               w3-hoverable w3-border w3-bordered content">
+      <div id="d_admin" class="w3-table-all w3-small w3-light-grey w3-hoverable w3-border w3-bordered content">
 	    <table id="t_userData"></table>
 	  </div>
     </div>
-  </section> 
+  </section>
 
-<!-- Game Page Start -->
+<!-- Game Page -->
 		<section id="s_gamePage">
 			<h1 class="hHeight">Game Page</h1>
 			<div class="w3-row">
 				<div class="w3-quarter bHeight w3-light-green">
 					<p>
-						<button class="b_screenChange w3-button" onclick="b_gamePageBack()">Back</button>
-						<button class="b_startBallGame w3-button" id = "b_startButton" onclick="b_startBallGame()">Start</button>
-						<p id="p_bgLevel"> Level: </p>
-						<p id="p_bgTimer"> Timer: </p>
-						<p id="p_bgScore"> Score: </p>
-						<p id="p_bgHit"> Hit: </p>
-						<p id="p_bgMiss"> Miss: </p>
-						<p id="p_bgHighScore"> High Score: </p>
-
+						<button class="btn btn-danger" onclick="b_gameBack()">Back</button>
+						<button class="btn btn-success" id = "b_startButton" onclick="b_startBB()">Start</button>
+						<p id="p_bbLevel"> Level: </p>
+						<p id="p_bbTimer"> Timer: </p>
+						<p id="p_bbScore"> Score: </p>
+						<p id="p_bbHit"> Hit: </p>
+						<p id="p_bbMiss"> Miss: </p>
+						<p id="p_bbHighScore"> High Score: </p>
 					</p>
 				</div>
 				<div id="d_gameCanvas" class="w3-threequarter bHeight w3-light-blue">
 				</div>
 			</div>
 		</section>
-<!-- Game Page End-->
+<!-- Game Page-->
 
 <!-- have a when the mouse clicks out of the game framerate of balls will slow down -->
 <!-- getelementbyid (stuff).innerhtml = details.email -->

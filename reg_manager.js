@@ -3,7 +3,7 @@ function reg_regDetailsEntered() {
 
   // Save player1's details from the form into your details object
   //  ENSURE THE OBJECT NAME THE PROGRAM SAVES TO IS CORRECT;
-  //    its currently details         
+  //    its currently details
   userDetails.username     =        reg_getFormItemValue("f_register", 0);
   userDetails.phone        = Number(reg_getFormItemValue("f_register",2));
 	userDetails.age = Number(reg_getFormItemValue("f_register", 1))
@@ -16,7 +16,7 @@ function reg_regDetailsEntered() {
   console.table(userDetails);
   fb_writeRec(USERDETAILS, userDetails.uid, userDetails);
 	console.log("Name: " + userDetails.name);
-  b_switchScreen("s_registerPage", "s_homePage");
+  ui_switchScreen("s_registerPage", "s_homePage");
 }
 
 /**************************************************************/

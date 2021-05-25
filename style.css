@@ -1,15 +1,24 @@
-.b_loginPage{
-	margin: auto;
-	padding:15%;
-}
 
+#b_admin{
+	display:none;
+}
+nav{
+	background-color: #e3f2fd;
+}
+.card{
+	width: 15rem;
+}
+#lp_loading{
+	width:3rem;
+	height:3rem;
+}
 #s_loginPage{
 	display: block;
-	height:100vh;
+	height:95vh;
 }
 #s_homePage{
 	display:none;
-	height:100vh;
+	height:95vh;
 }
 #s_gamePage{
 	display:none;
@@ -18,10 +27,10 @@
 	display:none;
 }
 .bHeight{
-	height:80vh;
+	height:88vh;
 }
 .hHeight{
-	height:10vh;
+	height:7vh;
 }
 canvas{
 	display:block;

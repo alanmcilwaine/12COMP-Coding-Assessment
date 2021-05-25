@@ -1,5 +1,5 @@
 const VELRANGE = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
-var f_ballGameStart = false;
+var bbStartFlag = false;
 var f_startGame = false;
 var gameCanvas;
 
@@ -11,7 +11,7 @@ class Ball {
 		this.velocityX = random(VELRANGE);
 		this.velocityY = random(VELRANGE);
 	}
-	// Checks if the ball bounces along the x wall, move it the opposite way 
+	// Checks if the ball bounces along the x wall, move it the opposite way
 	move (){
 		if (this.x >= width - this.r) {
 			this.velocityX = this.velocityX * -1;
@@ -20,7 +20,7 @@ class Ball {
 			this.velocityX = this.velocityX * -1;
 			this.x = this.r;
 		}
-	// Checks if the ball bounces along the y wall, move it the opposite way 
+	// Checks if the ball bounces along the y wall, move it the opposite way
 		if (this.y >= height - this.r){
 			this.velocityY = this.velocityY * -1;
 			this.y = height - this.r;
@@ -49,27 +49,10 @@ function bg_start() {
 	var elmnt = document.getElementById("d_gameCanvas")
 	gameCanvas.resize(elmnt.offsetWidth, elmnt.offsetHeight)
 	gameCanvas.parent(d_gameCanvas);
-	console.log("Game canvas set")
-
-	var button = document.getElementById("b_startButton")
-	if (f_ballGameStart == true) {
-		button.innerHTML = "Stop";
-
-		f_startGame = true;
-	}
+	console.log("Game canvas set");
+	var button = document.getElementById("b_startButton");
+	button.innerHTML = "Stop";
 }
-function createBall(ball_amount) {
-	for (i = 0; i < ball_amount; i++) {
-		ballArray[i] = new Ball(random(0, windowWidth), random(0, windowHeight), 40)
-		console.log("Amount of balls :" + ballArray.length);
-	}
-}
-    bb_interval = setInterval(bb_timer, 200)
-    for (i = 0; i < NUMOFBALLS; i++) {
-      ballsArray.push(new b_ball(VELRANDOM, BB_MIND, BB_MAXD))
-    }
-
-
 // //var creation
 // var ballArray = [];
 // var radius;
@@ -143,14 +126,14 @@ function createBall(ball_amount) {
 
 // //set flag to false
 // //loop these array of balls
-// //if you hit a ball 
+// //if you hit a ball
 // // * +1 to hits
 // // * set flag to true
-// //	if flag is still false 
+// //	if flag is still false
 // // 		* add 1 to misses
-// // 
-// // distancetoball = dist(this.posX, this.posY, mouseX, mouseY ) 
+// //
+// // distancetoball = dist(this.posX, this.posY, mouseX, mouseY )
 // // if (distancetoball) > this.dia/2
 // // 		you missed
-// // 
-// // 
+// //
+// //
