@@ -1,5 +1,6 @@
-var velocityRange = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
+const VELRANGE = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
 var f_ballGameStart = false;
+var f_startGame = false;
 var gameCanvas;
 
 class Ball {
@@ -7,8 +8,8 @@ class Ball {
 		this.x = _x;
 		this.y = _y;
 		this.r = _r;
-		this.velocityX = random(velocityRange);
-		this.velocityY = random(velocityRange);
+		this.velocityX = random(VELRANGE);
+		this.velocityY = random(VELRANGE);
 	}
 	// Checks if the ball bounces along the x wall, move it the opposite way 
 	move (){
@@ -44,7 +45,30 @@ class Ball {
 	};
 }
 
+function bg_start() {
+	var elmnt = document.getElementById("d_gameCanvas")
+	gameCanvas.resize(elmnt.offsetWidth, elmnt.offsetHeight)
+	gameCanvas.parent(d_gameCanvas);
 
+	console.log("Game canvas set")
+
+	var button = document.getElementById("b_startButton")
+	if (f_ballGameStart == true) {
+		button.innerHTML = "Stop";
+
+		f_startGame = true;
+	}
+}
+function createBall(ball_amount) {
+	for (i = 0; i < ball_amount; i++) {
+		ballArray[i] = new Ball(random(0, windowWidth), random(0, windowHeight), 40)
+		console.log("Amount of balls :" + ballArray.length);
+	}
+}
+    bb_interval = setInterval(bb_timer, 200)
+    for (i = 0; i < NUMOFBALLS; i++) {
+      ballsArray.push(new b_ball(VELRANDOM, BB_MIND, BB_MAXD))
+    }
 
 
 // //var creation
@@ -66,12 +90,12 @@ class Ball {
 
 // }
 
-// function createBall(ball_amount) {
-// 	for (i = 0; i < ball_amount; i++) {
-// 		ballArray[i] = new Ball(random(0, windowWidth), random(0, windowHeight), 40)
-// 		console.log("Amount of balls :" + ballArray.length);
-// 	}
-// }
+function createBall(ball_amount) {
+	for (i = 0; i < ball_amount; i++) {
+		ballArray[i] = new Ball(random(0, windowWidth), random(0, windowHeight), 40)
+		console.log("Amount of balls :" + ballArray.length);
+	}
+}
 
 // function removeBall(){
 // 	ballArray.splice(0, 1);

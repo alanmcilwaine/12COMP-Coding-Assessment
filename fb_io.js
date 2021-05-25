@@ -12,7 +12,7 @@
 /**************************************************************/
 
 function fb_initialise() {
-	console.log('fb_initialise: ');
+	console.log("Function: fb_initialise");
 	var firebaseConfig = {
 		apiKey: "AIzaSyDzg8NP8BwOahVbAOL_PGwnpBWO6w7vHsE",
 		authDomain: "comp12-2021-alan-mcilwaine.firebaseapp.com",
@@ -24,8 +24,8 @@ function fb_initialise() {
 	};
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
-	console.log(firebase + " firebase");
 	database = firebase.database();
+	console.table("Firebase Connected");
 }
 
 /**************************************************************/
@@ -35,11 +35,13 @@ function fb_initialise() {
 // Return: n/a
 /**************************************************************/
 function fb_login(_dataRec) {
-	console.log('fb_login: dataRec= ' + _dataRec);
+	console.log("Function: fb_login");
 	firebase.auth().onAuthStateChanged(newLogin);
 
 	function newLogin(_user) {
 		if (_user) {
+			console.log("Function: newLogin");
+			console.log("User has signed in");
 			// user is signed in
 			_dataRec.uid = _user.uid;
 			_dataRec.email = _user.email;
@@ -47,9 +49,11 @@ function fb_login(_dataRec) {
 			_dataRec.photoURL = _user.photoURL;
 			f_login = true;
 			fb_readRec(USERDETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
-			fb_readRec(BGDETAILS, userDetails.uid, bg_userDetails, fb_userGameDetailsProcess);
+			fb_readRec(USERROLES, userDetails.uid, '', fb_checkAdmin)
 		}
 		else {
+			console.log("Function: newLogin");
+			console.log("User has NOT signed in. Redirecting...");
 			// user NOT logged in, so redirect to Google login
 			_dataRec = {};
 			f_login = false;
@@ -58,7 +62,6 @@ function fb_login(_dataRec) {
 		}
 	}
 }
-
 /**************************************************************/
 // fb_logout()
 // Logout of Firebase
@@ -66,7 +69,7 @@ function fb_login(_dataRec) {
 // Return: n/a
 /**************************************************************/
 function fb_logout() {
-	console.log('fb_logout: ');
+	console.log("Function fb_logout");
 	firebase.auth().signOut();
 }
 
@@ -77,8 +80,8 @@ function fb_logout() {
 // Return:
 /**************************************************************/
 function fb_writeRec(_path, _key, _data) {
+	console.log("Function fb_writeRec");
 	firebase.database().ref(_path + '/' + _key).set(_data, writeErr);
-
 	//write record error
 	function writeErr(error) {
 		if (error) {
@@ -95,7 +98,8 @@ function fb_writeRec(_path, _key, _data) {
 // Return:
 /**************************************************************/
 function fb_readAll(_path, _data, _processData) {
-	console.log('fb_readAll: path= ' + _path);
+	console.log("Function: fb_readAll");
+	console.log("Reading All:" + _path);
 	readStatus = "pending...";
 	firebase.database().ref(_path).once("value", gotRecord, readErr);
 
@@ -126,16 +130,17 @@ function fb_readAll(_path, _data, _processData) {
 // Return:
 /**************************************************************/
 function fb_readRec(_path, _key, _data, _processData) {
-	console.log('fb_readRec: path= ' + _path + '  key= ' + _key);
+	console.log("Function: fb_readRec");
+	console.log("Reading Record: " + _path + ' /  ' + _key)
 	readStatus = "pending..."
 	firebase.database().ref(_path + '/' + _key).once("value", gotRecord, readErr);
 	function gotRecord(snapshot) {
 		if (snapshot.val() == null) {
-			readStatus = false;
+			readStatus = "No record";
 			console.log("Read Status: " + readStatus);
-			fb_newUser(_key)
+			_processData(readStatus, snapshot, _data);
 		} else {
-			readStatus = true;
+			readStatus = "Record found";
 			console.log("Read Status: " + readStatus);
 			// var dbData = snapshot.val();
 			_processData(readStatus, snapshot, _data);
@@ -156,10 +161,7 @@ function fb_readRec(_path, _key, _data, _processData) {
 // Return:
 /**************************************************************/
 function fb_newUser(_key) {
-	if (_key == userDetails.uid) {
-		console.log("New User: => Register Page");
-		b_switchScreen("s_loginPage", "s_registerPage");
-	}
+	b_switchScreen("s_loginPage", "s_registerPage")
 }
 
 /**************************************************************/
@@ -171,6 +173,9 @@ function fb_newUser(_key) {
 /**************************************************************/
 function fb_userDetailsProcess(_result,_userDetails, _data) {
 	var dbData = _userDetails.val();
+	if (_result == "No record"){
+		fb_newUser()
+	}else {
 	_data.uid = dbData.uid;
 	_data.name = dbData.name;
 	_data.email = dbData.email;
@@ -183,14 +188,17 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 	_data.suburb = dbData.suburb;
 	_data.city = dbData.city;
 	_data.postCode = dbData.postCode;
-	console.log("Hi");
 	console.log(dbData)
 	b_switchScreen("s_loginPage", "s_homePage")
+	}
 }
+
 function fb_userGameDetailsProcess(_userDetails, _data) {
 	_data.highScore = _userDetails.highScore;
 	console.log(_userDetails);
 }
+
+
 /**************************************************************/
 //    END OF MODULE
 /**************************************************************/

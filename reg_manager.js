@@ -1,5 +1,5 @@
 function reg_regDetailsEntered() {
-  console.log('reg_regDetailsEntered');
+  console.log('Function: reg_regDetailsEntered');
 
   // Save player1's details from the form into your details object
   //  ENSURE THE OBJECT NAME THE PROGRAM SAVES TO IS CORRECT;
@@ -15,7 +15,7 @@ function reg_regDetailsEntered() {
   userDetails.postCode = Number(reg_getFormItemValue("f_register", 8));
   console.table(userDetails);
   fb_writeRec(USERDETAILS, userDetails.uid, userDetails);
-	console.log(userDetails.name);
+	console.log("Name: " + userDetails.name);
   b_switchScreen("s_registerPage", "s_homePage");
 }
 
