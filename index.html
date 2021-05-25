@@ -3,8 +3,6 @@ written by Alan McIlwaine Term 1, 2021
 v1 added a login page 
 v2 added a registration page 
 v3 improved registration read/write to database  -->
-
-
 <!DOCTYPE html>
 <html>
 
@@ -15,57 +13,32 @@ v3 improved registration read/write to database  -->
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
 
-	<!-- p5.js setup start -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js">
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js">
-	</script>
-	<!-- p5.js setup end -->
+<!-- Setup p5.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+<!-- Setup firebase -->
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+<!-- Setup bootstrap -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<!-- Setup jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<!-- firebase start ----------------------------------------------------->
-	<!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
-
-	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js">
-
-	</script>
-	<!-- Add Firebase products that you want to use -->
-	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js">
-	</script>
-	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js">
-	</script>
-	<script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js">
-	</script>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
-	 crossorigin="anonymous">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ"
-	 crossorigin="anonymous">
-
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
-	 crossorigin="anonymous">
-	</script>
-	<!-- firebase end ------------------------------------------------------->
-
-	<script defer src="script.js">
-	</script>
-	<script defer src="fb_io.js">
-	</script>
-	<script defer src="fb_call.js">
-	</script>
-	<script defer src="bg_manager.js">
-	</script>
-	<script defer src="ui_manager.js">
-	</script>
-	<script defer src="gm_io.js">
-	</script>
-	<script defer src="reg_manager.js">
-	</script>
-	<script defer src="a_manager.js">
-	</script>
+<!-- Load .js files -->
+	<script defer src="/fb_io.js"></script>
+	<script defer src="/fb_call.js"></script>
+	<script defer src="/ui_manager.js"></script>
+	<script defer src="/ad_manager.js"></script>
+	<script defer src="/reg_manager.js"></script>
+	<script defer src="/bb_manager.js"></script>
 </head>
 
 <!-- Body start ----------------------------------------------------->
@@ -86,9 +59,13 @@ v3 improved registration read/write to database  -->
 
 <!-- Home Page -->
 		<section id="s_homePage">
-			<div class="jumbotron text-center"><h1>Alan's Game Website<h1>
-				<button type="button" class="btn-lg btn-default" onclick="b_ballGame()">Ball Game</button>
-				<button type="button" class="btn-lg btn-warning" onclick="ad_admin()">Admin</button></div> 
+			<div class="jumbotron text-center"><h1>Alan's Game Website<h1></div>
+				<nav class="navbar navbar-dark bg-light">
+					<form class="form-inline">
+				<button type="button" class="btn btn-outline-success" onclick="b_ballGame()">Ball Game</button>
+				<button type="button" class="btn btn-outline-warning" id="ad_button" onclick="ad_admin()">Admin</button>
+				</form>
+				</nav>
 				<div class="col-sm-4">
 					 <div class="w3-card">
 						 <p id="p_name"></p>

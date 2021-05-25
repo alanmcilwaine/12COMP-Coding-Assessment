@@ -22,7 +22,7 @@ var userDetails = {
   postCode:''
 };
 
-var bg_userDetails = {
+var userStats = {
   highScore: '',
 };
 

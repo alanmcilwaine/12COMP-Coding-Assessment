@@ -49,7 +49,6 @@ function bg_start() {
 	var elmnt = document.getElementById("d_gameCanvas")
 	gameCanvas.resize(elmnt.offsetWidth, elmnt.offsetHeight)
 	gameCanvas.parent(d_gameCanvas);
-
 	console.log("Game canvas set")
 
 	var button = document.getElementById("b_startButton")

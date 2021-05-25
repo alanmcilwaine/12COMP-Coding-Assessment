@@ -49,7 +49,8 @@ function fb_login(_dataRec) {
 			_dataRec.photoURL = _user.photoURL;
 			f_login = true;
 			fb_readRec(USERDETAILS, userDetails.uid, userDetails, fb_userDetailsProcess);
-			fb_readRec(USERROLES, userDetails.uid, '', fb_checkAdmin)
+			fb_readRec(USERROLES, userDetails.uid, '', fb_checkAdmin);
+			fb_readRec(BGDETAILS, userDetails.uid, userStats, fb_userGameDetailsProcess);
 		}
 		else {
 			console.log("Function: newLogin");
@@ -59,6 +60,16 @@ function fb_login(_dataRec) {
 			f_login = false;
 			var provider = new firebase.auth.GoogleAuthProvider();
 			firebase.auth().signInWithRedirect(provider);
+		}
+	}
+}
+function fb_checkAdmin(_result, _dbData){
+	var dbData = _dbData.val();
+	if (_result == "Record found"){
+		if (dbData == 'admin'){
+			document.getElementById('ad_button').style.display = "block";
+		}else {
+			document.getElementById('ad_button').style.display = "none";
 		}
 	}
 }
@@ -193,9 +204,15 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 	}
 }
 
-function fb_userGameDetailsProcess(_userDetails, _data) {
-	_data.highScore = _userDetails.highScore;
-	console.log(_userDetails);
+function fb_userGameDetailsProcess(_result, _userDetails, _data) {
+	var dbData = _userDetails.val();
+	if (_result == "No record"){
+		fb_writeRec(BGDETAILS/highScore, userDetails.uid, 0);
+	}else{
+	_data.highScore = dbData.highScore;
+	console.table(_userDetails);
+	}
+
 }
 
 

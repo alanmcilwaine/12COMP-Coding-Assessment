@@ -397,7 +397,7 @@ function ad_clickEditCell(_tableId, _item, _path) {
 	var dbKey;
 	var dbFieldName;
 
-	//document.querySelector("table").addEventListener("click", function(event) {
+	//document.querySelector("table").addEventListener("click", function(event) 
 	table.onclick = function (event) {
 		//console.log('table.onclick: click event called. path = ' + _path); 
 		// 4 possible targets:                
