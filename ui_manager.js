@@ -3,22 +3,29 @@ function setup(){
 	fb_initialise(); // Connect to firebase
 	fb_login();
 	gameCanvas = createCanvas(0,0);
+	frameRate(5);
 };
 
 function draw(){
 	background(200,200,200);
-	if (bbStartFlag == true){
-		console.log("BB Starting");
-		bg_draw();
+	if (bb_startFlag == true){
+		bb_draw();
 	}
+}
+
+function windowResized(){
+	var elmnt = document.getElementById("d_gameCanvas");
+	resizeCanvas(elmnt.offsetWidth, elmnt.offsetHeight);
 }
 
 function b_bouncingBall(){
 	ui_switchScreen("s_homePage", "s_gamePage");
-			fb_readRec(BGDETAILS, userDetails.uid, highScore, fb_userGameDetailsProcess);
+			fb_readRec(BBDETAILS, userDetails.uid, userStats, fb_userGameDetailsProcess);
 };
 
 function b_gameBack(){
+	bb_leave();
+	document.getElementById("b_startButton").innerHTML = "Start";
 	ui_switchScreen("s_gamePage", "s_homePage");
 };
 

@@ -110,7 +110,7 @@ function fb_checkAdmin(_result, _dbData){
 
 
 /**************************************************************/
-// fb_logout()
+// fb_logout()	
 // Logout of Firebase
 // Input:  n/a
 // Return: n/a
@@ -244,10 +244,10 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 function fb_userGameDetailsProcess(_result, _userDetails, _data) {
 	var dbData = _userDetails.val();
 	if (_result == "No record"){
-		fb_writeRec(BBDETAILS, userDetails.uid, highScore);
+		userStats.highScore = Number(0);
+		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
 	}else{
 	_data.highScore = dbData.highScore;
-	console.table(_userDetails);
 	}
 
 }

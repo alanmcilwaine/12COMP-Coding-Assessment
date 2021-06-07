@@ -1,18 +1,40 @@
+//Randomized range of velocity - between these numbers
 const VELRANGE = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
-var bbStartFlag = false;
-var f_startGame = false;
-var gameCanvas;
+//Number of balls on screen
+const NUMOFBALLS = 10;
 
+//variables
+var bb_startFlag = false;
+var gameCanvas;
+var i;
+var ballsArray = [];
+var radius;
+var hits = 0;
+var miss = 0;
+var score;
+var highScore;
+var button = document.getElementById("b_startButton");
+var bb_timer;
+var bb_countdown = 20;
+/**************************************************************/
+// class Ball()	
+// Properties of the ball - movement, display and click
+// Input: ball radius in pixels
+/**************************************************************/
 class Ball {
-	constructor(_x, _y, _r){
-		this.x = _x;
-		this.y = _y;
+	constructor(_r){
+		this.x = width / 2;
+		this.y = height / 2;
 		this.r = _r;
 		this.velocityX = random(VELRANGE);
 		this.velocityY = random(VELRANGE);
+		this.colour = random(10,245), random(10,245), random(10,245);
 	}
-	// Checks if the ball bounces along the x wall, move it the opposite way
+	//
+	// Ball Movement - Horizontal, Verticle, Bounciness
+	//
 	move (){
+	//Checks if the ball bounces along the y wall, move it the opposite way
 		if (this.x >= width - this.r) {
 			this.velocityX = this.velocityX * -1;
 			this.x = width - this.r;
@@ -28,31 +50,174 @@ class Ball {
 			this.velocityY = this.velocityY * -1;
 			this.y = this.r;
 		}
+	// Horizontal ball movement
+		this.x = this.x + this.velocityX;
+	// Verticle ball movement
+		this.y = this.y + this.velocityY;
 	};
-	// Checks if the player clicks the ball
-	click (_x, _y){
-		var distanceToBall = dist(_x, _y, this.x, this.y);
-
+	//
+	// Player Interation - Click
+	//
+	click (){
+	// distanceToBall - tracks the distance between the mouse position and the ball
+		var distanceToBall = dist(this.x, this.y, mouseX, mouseY);
+	// If the mouse is inside the balls radius, return true or false
 		if (distanceToBall <= this.r){
 			return true;
 		}else {
 			return false;
 		}
 	};
+	//
+	// Ball Display Properties
+	//
 	show (){
 		fill(this.colour);
 		ellipse (this.x, this.y, (this.r * 2));
 	};
 }
 
-function bg_start() {
+/**************************************************************/
+// bb_start()	
+// Setup game canvas
+// Input:  User clicks on 'Start' or 'Stop'
+/**************************************************************/
+function bb_start() {
+	// Create Game Canvas 
 	var elmnt = document.getElementById("d_gameCanvas")
 	gameCanvas.resize(elmnt.offsetWidth, elmnt.offsetHeight)
 	gameCanvas.parent(d_gameCanvas);
 	console.log("Game canvas set");
-	var button = document.getElementById("b_startButton");
-	button.innerHTML = "Stop";
+	// Create timer 
+	bb_timer = setInterval (bb_gameTimer, 1000);
+	// User clicks 'Start'
+	if (bb_startFlag == false){
+		//Create NUMOFBALLS amount of balls
+		for (i = 0; i < NUMOFBALLS; i++) {
+      ballsArray.push(new Ball(50));
+		}
+		button.innerHTML = "Stop";
+		bb_startFlag = true;
+		console.log("bb_startFlag: " + bb_startFlag)
+	// User clicks 'Stop'
+	}else if (bb_startFlag == true){
+		bb_leave();
+	}
 }
+
+/**************************************************************/
+// bb_leave()
+// User leaves the game 
+// Input: User clicks on 'Back' or wins
+/**************************************************************/
+function bb_leave(){
+	button.innerHTML = "Start";
+	score = 0;
+	hits = 0;
+	miss = 0;
+	bb_startFlag = false;
+	//clears timer
+	clearInterval(bb_timer);
+	//reset time to 20 seconds
+	bb_countdown = 20;
+	// Removes existing balls
+	for (i = ballsArray.length - 1; i >= 0; i--) {
+		ballsArray.splice(i);
+	}
+}
+
+function bb_gameTimer(){
+	console.log("Function: bb_gameTimer");
+	bb_countdown--;
+	if (bb_countdown <= 0){
+		bb_win;
+	}
+}
+
+/**************************************************************/
+// bb_draw()
+// Draw function for game
+// Input: Called when ball game is active
+/**************************************************************/
+function bb_draw(){
+	//Updates HTML user score
+	bb_updateScore();
+	//Updates background
+	background(200);
+	//Checks where mouse clicks are on the canvas
+	gameCanvas.mousePressed(bb_ballClicked);
+
+	//Every active ball to show and move
+	for (var i = 0; i < ballsArray.length; i++) {
+	ballsArray[i].move()
+	ballsArray[i].show()
+	}
+	//If there are no balls left, win
+	if (ballsArray.length == 0){
+		bb_win();
+		bb_startFlag = false;
+	}	
+}
+
+/**************************************************************/
+// bb_updateScore()
+// Updates HTML of User Score
+// Input:  Mouse clicks hit and miss on canvas, firebase saved highScore
+function bb_updateScore(){
+	bb_calculateScore();
+	document.getElementById("p_bbHighScore").innerHTML = 'High Score: ' + userStats.highScore;
+	document.getElementById("p_bbScore").innerHTML = "Score: " + score;
+	document.getElementById("p_bbMiss").innerHTML = "Misses:" + miss;
+	document.getElementById("p_bbHits").innerHTML = "Hits: " + hits;
+	document.getElementById("p_bbTimer").innerHTML = "Timer: " + bb_countdown;
+}
+
+/**************************************************************/
+// bb_calculateScore()
+// Calculates user score
+// Input:  Mouse hits and miss on canvas
+// Return: User Score 
+/**************************************************************/
+function bb_calculateScore(){
+	score = (hits * 10) - (miss * 10);
+}
+
+/**************************************************************/
+// bb_win()	
+// If the user clicks every ball
+// Input:  If the ball object is empty
+// Return: Updates firebase if score is a new highScore
+/**************************************************************/
+function bb_win(){
+	if (score > userStats.highScore) {
+		userStats.highScore = score;
+		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
+	}
+	bb_leave();
+}
+
+/**************************************************************/
+// bb_ballClicked()
+// Checks if the ball is clicked
+// Input:  Mouse position on canvas, ball x,y on canvas and radius
+// Return: Adds to hit or miss and splices the ball frmo the array
+/**************************************************************/
+function bb_ballClicked(){
+	var hitBall = false;
+	for (var i = ballsArray.length - 1; i >= 0; i--) {
+		if (ballsArray[i].click()) {
+			hits++
+			ballsArray.splice(i,1);
+			hitBall = true;
+		}
+	}
+	if (hitBall == false){
+		miss++
+	}
+	
+}
+
+
 // //var creation
 // var ballArray = [];
 // var radius;
@@ -72,12 +237,6 @@ function bg_start() {
 
 // }
 
-function createBall(ball_amount) {
-	for (i = 0; i < ball_amount; i++) {
-		ballArray[i] = new Ball(random(0, windowWidth), random(0, windowHeight), 40)
-		console.log("Amount of balls :" + ballArray.length);
-	}
-}
 
 // function removeBall(){
 // 	ballArray.splice(0, 1);

@@ -100,7 +100,7 @@ function ad_BB() {
 	document.getElementById("b_adUser").style.backgroundColor = "grey";
 	document.getElementById("b_adHome").style.backgroundColor = "grey";
 	// ENSURE THE READ FUNCTION NAME & THE PATH NAME ARE CORRECT           //<=======
-	fb_readAll(BGDETAILS, '', ad_processBBReadAll);                                   //<=======
+	fb_readAll(BBDETAILS, '', ad_processBBReadAll);                                   //<=======
 }
 
 /**************************************************************/
@@ -184,10 +184,10 @@ function ad_processBBReadAll(_result, _dbRec) {
 		//  7 = COLUMMN NUMBER WHICH CONTAINS THE DATABASE KEY.              //<=======
 		//  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
 		ad_displayAll("t_userData", ad_adminArray, true, "", "", "",
-			1, BGDETAILS);                                                //<=======
+			1, BBDETAILS);                                                //<=======
 	} else if (_result == 'n/a') {
 		ad_displayAll("t_userData", ad_adminArray, true, "", "", "",
-			1, BGDETAILS);                                                //<=======
+			1, BBDETAILS);                                                //<=======
 	}
 }
 

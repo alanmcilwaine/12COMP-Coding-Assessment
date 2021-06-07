@@ -1,3 +1,10 @@
+// Text has numbers a-z lowercase and uppercase and could contain numbers
+const NAMEREGEX = /^[a-zA-Z0-9]+$/;
+// Text only contains numbers
+const NUMREGEX = /^(1[3-9]|[2-9][0-9]|1[0-2][0-9]|130)$/
+// Text doesn't have white space
+const WHITESPACEREGEX = /.*\\S+.*/
+
 function reg_regDetailsEntered() {
   console.log('Function: reg_regDetailsEntered');
 
@@ -14,9 +21,41 @@ function reg_regDetailsEntered() {
   userDetails.city = reg_getFormItemValue("f_register", 7);
   userDetails.postCode = Number(reg_getFormItemValue("f_register", 8));
   console.table(userDetails);
-  fb_writeRec(USERDETAILS, userDetails.uid, userDetails);
-	console.log("Name: " + userDetails.name);
-  ui_switchScreen("s_registerPage", "s_homePage");
+
+	var regEx_username = reg_validate(userDetails.username, NAMEREGEX);
+	if(regEx_username){
+		console.log("Validation: Username passed");
+		document.querySelector("#i_username").setCustomValidity("");
+	}else{
+		document.querySelector("#i_username").setCustomValidity("Username is invalid");
+		console.log(regEx_username);
+	}
+
+	var regEx_age = reg_validate(userDetails.age, NUMREGEX);
+	if (regEx_age){
+		console.log("Validation: Age passed");
+		document.querySelector("#i_username").setCustomValidity("");
+	}else {
+		document.querySelector("#i_age").setCustomValidity("Age is below 13 or unreasonable");
+	}
+	
+	var inpForm = document.getElementById("f_register");
+	if (!inpForm.checkValidity()){
+		console.log("Validation failed: Registration");
+	}else{
+		fb_writeRec(USERDETAILS, userDetails.uid, userDetails);
+		console.log("Name: " + userDetails.name);
+		ui_switchScreen("s_registerPage", "s_homePage");
+	}
+}
+
+function reg_validate(_input, _regEx){
+	if(_regEx.test(_input)){
+		return true;
+	}else {
+		return false;
+
+	}
 }
 
 /**************************************************************/
