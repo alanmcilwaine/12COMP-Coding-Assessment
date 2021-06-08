@@ -21,6 +21,9 @@
     v11 Add firebase
     v12 Add admin with fixed table update
     v13 Add numeric validation
+
+		Adapted by Alan McIlwaine, 2021
+			To tailor to my program
 *************************************************************/
 
 /*************************************************************           //<=======

@@ -1,3 +1,7 @@
+/**************************************************************/
+// fb_io.js
+// Written by Alan McIlwaine 2021
+/**************************************************************/
 //Number of balls on screen
 var NUMOFBALLS = 10;
 //Randomized range of velocity - between these numbers
@@ -94,9 +98,9 @@ function bb_start() {
 	console.log("Game canvas set");
 
 	// Remove difficulty buttons
-	document.getElementById("b_easy").style.display = "none";
-	document.getElementById("b_medium").style.display = "none";
-	document.getElementById("b_hard").style.display = "none"
+	document.getElementById("b_easy").classList.add('invisible');
+	document.getElementById("b_medium").classList.add("invisible");
+	document.getElementById("b_hard").classList.add("invisible");
 
 	// Reset win/lose status
 	document.getElementById("p_gameStatus").innerHTML = "";
@@ -108,7 +112,7 @@ function bb_start() {
 		bb_startFlag = true;
 		//Create NUMOFBALLS amount of balls
 		for (i = 0; i < NUMOFBALLS; i++) {
-      ballsArray.push(new Ball(50));
+      ballsArray.push(new Ball(80));
 		}
 		bb_timer = setInterval(bb_gameTimer, 1000);
 		button.innerHTML = "Stop";
@@ -116,7 +120,9 @@ function bb_start() {
 		console.log("bb_startFlag: " + bb_startFlag);
 	// User clicks 'Stop'
 	}else if (bb_stopFlag == true){
-		document.getElementById("b_easy").style.display = "flex"; document.getElementById("b_medium").style.display = "flex"; document.getElementById("b_hard").style.display = "flex";
+		document.getElementById("b_easy").classList.remove('invisible');
+		document.getElementById("b_medium").classList.remove("invisible");
+		document.getElementById("b_hard").classList.remove("invisible");
 		console.log("bb_stopFlag: " + bb_stopFlag)
 		button.innerHTML = "Start";
 		score = 0;
@@ -134,12 +140,13 @@ function bb_start() {
 // Input: User clicks on 'Back' or wins
 /**************************************************************/
 function bb_reset(){
-	console.log("BBLeave")
+	console.log("bb_reset")
 	button.innerHTML = "Start";
 	score = 0;
 	hits = 0;
 	miss = 0;
 	bb_countdown = 20;
+	clearInterval(bb_timer);
 	// Removes existing balls
 	bb_updateScore();
 	for (i = ballsArray.length - 1; i >= 0; i--) {
@@ -167,7 +174,7 @@ function bb_draw(){
 	background(200);
 	//Checks where mouse clicks are on the canvas
 	gameCanvas.mousePressed(bb_ballClicked);
-
+	console.log(ballsArray.length)
 	//Every active ball to show and move
 	for (var i = 0; i < ballsArray.length; i++) {
 	ballsArray[i].move()
@@ -200,11 +207,12 @@ function bb_updateScore(){
 // Return: User Score 
 /**************************************************************/
 function bb_calculateScore(){
+	console.log(bb_hardMode)
 	if (bb_easyMode == true){
 		score = ((hits * 10) - (miss * 10));
 	}else if (bb_mediumMode == true){
 		score = ((hits * 11) - (miss * 9));
-	}else if (bb_mediumMode == true){
+	}else if (bb_hardMode == true){
 		score = ((hits * 12) - (miss * 8));
 	}
 }
@@ -216,13 +224,14 @@ function bb_calculateScore(){
 // Return: Updates firebase if score is a new highScore
 /**************************************************************/
 function bb_win(){
+	console.log("bb_win")
 	if (score > userStats.highScore) {
 		userStats.highScore = score;
 		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
 		document.getElementById("p_gameStatus").innerHTML = "You Win. </br> New High Score!";
 		bb_updateScore();
 	}
-	document.getElementById("p_gameStatus").innerHTML = "You Win."
+	document.getElementById("p_gameStatus").innerHTML = "You Win. </br> Final Score: " + score;
 	bb_reset();
 }
 
@@ -259,7 +268,12 @@ function bb_ballClicked(){
 		miss++
 	}
 }
-
+/**************************************************************/
+// function bb_easy, medium and hard()
+// Changes difficulty of ball game. Speeds up velocity and increases number of balls
+// Input:  If easy, medium or hard buttons are clicked
+// Return: Turns the picked difficulty to true and others to false
+/**************************************************************/
 function bb_easy(){
 	console.log("Easy Difficulty")
 	bb_easyMode = true;

@@ -1,8 +1,4 @@
-<!-- index.html
-written by Alan McIlwaine Term 1, 2021
-v1 added a login page
-v2 added a registration page
-v3 improved registration read/write to database  -->
+<!-- index.html written by Alan McIlwaine Term 1, 2021-->
 <!DOCTYPE html>
 <html>
 
@@ -85,9 +81,9 @@ v3 improved registration read/write to database  -->
 			</div>
 			<form class="w3-container" id="f_register" onsubmit="return false;">
 				<label>Username*</label>
-				<input id="i_username" class="w3-input" type="text" required name="username" placeholder="Username">
+				<input id="i_username" class="w3-input" type="text" required name="username" placeholder="Username" minlength ="3" maxlength="13">
 				<label>Age*</label>
-				<input class="w3-input" type="number" required name ="age" placeholder="Age" min="13" max="130">
+				<input id ="i_age" class="w3-input" type="number" required name ="age" placeholder="Age" min="13" max="130">
 				<label>Phone Number*</label>
 				<input class="w3-input" type="number" required name="phone" placeholder="Phone Number" min="1000000" max="1000000000000">
 				<label>Gender*</label>
@@ -97,16 +93,16 @@ v3 improved registration read/write to database  -->
 					<option value="female">Female</option>
 					<option value="other">Other</option>
 				</select>
-				<label>Country</label>
-				<input class="w3-input" type="text" placeholder="Country">
-				<label>Address Line</label>
-				<input class="w3-input" type="text" placeholder="Address Line">
-				<label>Suburb</label>
-				<input class="w3-input" type="text" placeholder="Suburb">
-				<label>City</label>
-				<input class="w3-input" type="text" placeholder="City">
+				<label>Country*</label>
+				<input id ="i_country" class="w3-input" type="text" required placeholder="Country" minlength ="4" maxlength ="56">
+				<label>Address Line*</label>
+				<input id="i_address" class="w3-input" type="text" required placeholder="Address Line" maxlength="50">
+				<label>Suburb*</label>
+				<input id ="i_suburb" class="w3-input" type="text" placeholder="Suburb" required minlength ="2" maxlength="82">
+				<label>City*</label>
+				<input id="i_city" class="w3-input" type="text" required placeholder="City">
 				<label>Post Code</label>
-				<input class="w3-input" type="number" placeholder="Post Code">
+				<input id ="i_postCode" class="w3-input" type="number" placeholder="Post Code" required>
 				<button class="w3-button w3-red" value="submit" onclick="reg_regDetailsEntered()">Register</button>
 			</form>
 		</div>
@@ -133,35 +129,19 @@ v3 improved registration read/write to database  -->
   </section>
 <!-- Leaderboard Page -->
 		<section id="s_leaderboardPage">
-						
-			<table class="table">
-				<thead class="thead-light">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Score</th>
-						<th scope="col">Username</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td><p id="t_score1"></p></td>
-						<td><p id="t_username1"></p></td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Larry</td>
-						<td>the Bird</td>
-						<td>@twitter</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="jumbotron text-center"><h1>Alan's Game Website<h1></div>
+				<nav class="navbar navbar-light justify-content-center">
+					<form class="form-inline">
+						<button type="button" class="btn btn-danger" onclick="b_leaderboardBack()">Back</button>
+					</form>
+				</nav>
+			<ul> 
+				<li class="list-group-item" id="ld_leader1"></li>
+				<li class="list-group-item" id="ld_leader2"></li>
+				<li class="list-group-item" id="ld_leader3"></li>
+				<li class="list-group-item" id="ld_leader4"></li>
+				<li class="list-group-item" id="ld_leader5"></li>
+			</ul>
 		</section>
 <!-- Game Page -->
 		<section id="s_gamePage">
@@ -171,7 +151,6 @@ v3 improved registration read/write to database  -->
 					<p>
 						<button class="btn btn-danger" onclick="b_gameBack()">Back</button>
 						<button class="btn btn-success" id = "b_startButton" onclick="bb_start()">Start</button>
-						<p id="p_bbLevel"> Level: </p>
 						<p id="p_bbTimer"> Timer: </p>
 						<p id="p_bbScore"> Score: </p>
 						<p id="p_bbHits"> Hit: </p>
@@ -181,6 +160,7 @@ v3 improved registration read/write to database  -->
 						<button type="button" onclick ="bb_easy()" id="b_easy" class="btn btn-outline-dark">Easy</button>
 						<button type="button" onclick ="bb_medium()" id="b_medium" class="btn btn-outline-dark">Medium</button>
 						<button type="button" onclick ="bb_hard()" id="b_hard" class="btn btn-outline-dark">Hard</button>
+						<p id="p_bbObjective"> Instructions: Click all the balls before the time runs out. Higher difficulties award more points.</p>
 				</div>
 				<div id="d_gameCanvas" class="w3-threequarter bHeight w3-light-blue">
 				</div>

@@ -1,21 +1,6 @@
+/* Sections */
 #s_leaderboardPage{
 	display:none;
-}
-#b_admin{
-	display:none;
-}
-#p_gameStatus{
-	font-size: 140%;
-}
-nav{
-	background-color: #e3f2fd;
-}
-.card{
-	width: 15rem;
-}
-#lp_loading{
-	width:3rem;
-	height:3rem;
 }
 #s_loginPage{
 	display: block;
@@ -28,25 +13,11 @@ nav{
 #s_gamePage{
 	display:none;
 }
+#s_gamePage p{
+	font-size:120%;
+}
 #s_registerPage{
 	display:none;
-}
-.bHeight{
-	height:88vh;
-}
-.hHeight{
-	height:7vh;
-}
-canvas{
-	display:block;
-}
-.transparentBG {
-  background: rgba(169, 169, 169, 0.7);
-  color: black;
-}
-.transparentBG {
-  background: rgba(169, 169, 169, 0.7);
-  color: black;
 }
 #s_adminPage {
   display: none;
@@ -54,10 +25,54 @@ canvas{
   overflow: scroll;
 }
 
+/* Buttons */
+#b_admin{
+	display:none;
+}
 #b_lpAdmin {
-  display: none;   /* none = don't display element */
+  display: none; 
+}
+#b_gpAdmin {
+  display: none;   
 }
 
-#b_gpAdmin {
-  display: none;   /* none = don't display element */
+/* Paragraphs */
+#p_gameStatus{
+	font-size: 140%;
 }
+
+/* Container Sizing */
+.bHeight{
+	height:88vh;
+}
+.hHeight{
+	height:7vh;
+}
+nav{
+	background-color: #e3f2fd;
+}
+.card{
+	width: 15rem;
+}
+canvas{
+	display:block;
+}
+
+#lp_loading{
+	width:3rem;
+	height:3rem;
+}
+.transparentBG {
+  background: rgba(169, 169, 169, 0.7);
+  color: black;
+}
+.transparentBG {
+  background: rgba(169, 169, 169, 0.7);
+  color: black;
+}
+
+
+
+
+
+

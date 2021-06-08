@@ -1,6 +1,7 @@
 /**************************************************************/
 // fb_io.js
 // Written by Mr Gillies   2021
+// Adapted by Alan McIlwaine 2021 to fit my program
 /**************************************************************/
 const USERDETAILS = "userDetails";
 const BBDETAILS = "userStats";
@@ -241,37 +242,60 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 	}
 }
 
-function fb_userGameDetailsProcess(_result, _userDetails, _data) {
-	var dbData = _userDetails.val();
+/**************************************************************/
+// fb_userGameDetailsProcess()
+// Saves game data from record to an object
+// Input: Read status, record, object
+// Return: Saves record to object userStats
+/**************************************************************/
+function fb_userGameDetailsProcess(_result, snapshot, _data) {
+	var dbData = snapshot.val();
+	//Run if user has no game records
 	if (_result == "No record"){
-		userStats.highScore = Number(0);
-		userStats.username = 
+	//Writes their high score as 0 if they don't have a record
+		userStats.highScore = Number(0); 
 		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
 	}else{
+	//Run if user has a game record. Save it to object userStats
 	_data.highScore = dbData.highScore;
 	_data.username = dbData.username;
 	}
 
 }
 
+/**************************************************************/
+// fb_createLeaderboard()
+// Reads userStats from database. Sorts highScore numerically and changes the html
+// Input:  userStats path in firebase, list number on leaderboard
+// Return: Changes HTML on leaderboard using recorded high score/username
+/**************************************************************/
 function fb_createLeaderboard(_path, _num){
+	//orders high scores
 	ref = firebase.database().ref(_path).orderByChild("highScore").limitToLast(_num);
 	ref.once("value", gotData, readErr);
-
 	function gotData(snapshot) {
+		//if there is no record
 		if (snapshot.val() == null) {
 			console.log("No record");
 		}else{
+		//if there is a highscore change html, acts like a for loop that will change 
+		//each list 
 			snapshot.forEach(function (childSnapshot){
+		//user id
 				var childKey = childSnapshot.key;
+		//userStats object from firebase
 				var childData = childSnapshot.val();
-				document.getElementById("t_score" + _num).innerHTML = childData.highScore;
-				document.getElementById("t_username" + _num).innerHTML = childData.username;
+		//setting it to a variable. otherwise result will be 'undefined'
+				var ld_highScore = childData.highScore;
+				var ld_username = childData.username;
+		//changes html on leaderboard
+				document.getElementById("ld_leader" + _num).innerHTML = ld_username + " | High Score | " + ld_highScore;
+				_num--;
 				console.log(childData)
 			});
 		}
 	}
-
+	//console logs if there is a read/write error
 	function readErr(error) {
 	readStatus = false;
 	console.log(error);
