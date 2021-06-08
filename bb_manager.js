@@ -1,7 +1,7 @@
-//Randomized range of velocity - between these numbers
-const VELRANGE = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
 //Number of balls on screen
-const NUMOFBALLS = 10;
+var NUMOFBALLS = 10;
+//Randomized range of velocity - between these numbers
+var VELRANGE = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
 
 //variables
 var bb_startFlag = false;
@@ -16,6 +16,10 @@ var highScore;
 var button = document.getElementById("b_startButton");
 var bb_timer;
 var bb_countdown = 20;
+var bb_easyMode = true;
+var bb_mediumMode = false;
+var bb_hardMode = false;
+var bb_stopFlag = false;
 /**************************************************************/
 // class Ball()	
 // Properties of the ball - movement, display and click
@@ -88,39 +92,56 @@ function bb_start() {
 	gameCanvas.resize(elmnt.offsetWidth, elmnt.offsetHeight)
 	gameCanvas.parent(d_gameCanvas);
 	console.log("Game canvas set");
-	// Create timer 
-	bb_timer = setInterval (bb_gameTimer, 1000);
+
+	// Remove difficulty buttons
+	document.getElementById("b_easy").style.display = "none";
+	document.getElementById("b_medium").style.display = "none";
+	document.getElementById("b_hard").style.display = "none"
+
+	// Reset win/lose status
+	document.getElementById("p_gameStatus").innerHTML = "";
+
 	// User clicks 'Start'
-	if (bb_startFlag == false){
+	if (bb_stopFlag == false){
+		// Resets the canvas
+		bb_reset();
+		bb_startFlag = true;
 		//Create NUMOFBALLS amount of balls
 		for (i = 0; i < NUMOFBALLS; i++) {
       ballsArray.push(new Ball(50));
 		}
+		bb_timer = setInterval(bb_gameTimer, 1000);
 		button.innerHTML = "Stop";
-		bb_startFlag = true;
-		console.log("bb_startFlag: " + bb_startFlag)
+		bb_stopFlag = true;
+		console.log("bb_startFlag: " + bb_startFlag);
 	// User clicks 'Stop'
-	}else if (bb_startFlag == true){
-		bb_leave();
+	}else if (bb_stopFlag == true){
+		document.getElementById("b_easy").style.display = "flex"; document.getElementById("b_medium").style.display = "flex"; document.getElementById("b_hard").style.display = "flex";
+		console.log("bb_stopFlag: " + bb_stopFlag)
+		button.innerHTML = "Start";
+		score = 0;
+		hits = 0;
+		miss = 0;
+		clearInterval(bb_timer);
+		bb_startFlag = false;
+		bb_stopFlag = false;
 	}
 }
 
 /**************************************************************/
-// bb_leave()
+// bb_reset()
 // User leaves the game 
 // Input: User clicks on 'Back' or wins
 /**************************************************************/
-function bb_leave(){
+function bb_reset(){
+	console.log("BBLeave")
 	button.innerHTML = "Start";
 	score = 0;
 	hits = 0;
 	miss = 0;
-	bb_startFlag = false;
-	//clears timer
-	clearInterval(bb_timer);
-	//reset time to 20 seconds
 	bb_countdown = 20;
 	// Removes existing balls
+	bb_updateScore();
 	for (i = ballsArray.length - 1; i >= 0; i--) {
 		ballsArray.splice(i);
 	}
@@ -130,7 +151,7 @@ function bb_gameTimer(){
 	console.log("Function: bb_gameTimer");
 	bb_countdown--;
 	if (bb_countdown <= 0){
-		bb_win;
+		bb_lose();
 	}
 }
 
@@ -179,7 +200,13 @@ function bb_updateScore(){
 // Return: User Score 
 /**************************************************************/
 function bb_calculateScore(){
-	score = (hits * 10) - (miss * 10);
+	if (bb_easyMode == true){
+		score = ((hits * 10) - (miss * 10));
+	}else if (bb_mediumMode == true){
+		score = ((hits * 11) - (miss * 9));
+	}else if (bb_mediumMode == true){
+		score = ((hits * 12) - (miss * 8));
+	}
 }
 
 /**************************************************************/
@@ -192,8 +219,25 @@ function bb_win(){
 	if (score > userStats.highScore) {
 		userStats.highScore = score;
 		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
+		document.getElementById("p_gameStatus").innerHTML = "You Win. </br> New High Score!";
+		bb_updateScore();
 	}
-	bb_leave();
+	document.getElementById("p_gameStatus").innerHTML = "You Win."
+	bb_reset();
+}
+
+/**************************************************************/
+// bb_lose()	
+// If the timer runs out
+// Input:  Ball timer 
+// Return: Changes game html to display 'You Lose'
+/**************************************************************/
+function bb_lose(){
+	bb_reset();
+	document.getElementById("p_gameStatus").innerHTML = "You Lose";
+	// Stop timer
+	clearInterval(bb_timer);
+	bb_countdown = 0;
 }
 
 /**************************************************************/
@@ -214,85 +258,34 @@ function bb_ballClicked(){
 	if (hitBall == false){
 		miss++
 	}
-	
 }
 
+function bb_easy(){
+	console.log("Easy Difficulty")
+	bb_easyMode = true;
+	bb_mediumMode = false;
+	bb_hardMode = false;
 
-// //var creation
-// var ballArray = [];
-// var radius;
-// var i;
-// var button;
+	//Randomized range of velocity - between these numbers
+	VELRANGE = [7, 6, 5, -5, -6, -7,];
+}
+function bb_medium(){
+	console.log("Medium Difficulty")
+	bb_easyMode = false;
+	bb_mediumMode = true;
+	bb_hardMode = false;
 
-// function setup() {
-// 	createCanvas(windowWidth, windowHeight);
-// 	createBall(5);
-// 	frameRate(60);
-// 	setInterval(removeBall, 1000);
-// }
+	//Randomized range of velocity - between these numbers
+	VELRANGE = [9,8,7, 6,-6, -7,];
+	NUMOFBALLS = 12;
+}
+function bb_hard(){
+	console.log("Hard Difficulty")
+	bb_easyMode = false;
+	bb_mediumMode = false;
+	bb_hardMode = true;
 
-// function draw() {
-// 	background(200);
-// 	movementBall(2, 2);
-
-// }
-
-
-// function removeBall(){
-// 	ballArray.splice(0, 1);
-// 	ballArray.push(new Ball(random(0, windowWidth), random(0, windowHeight), 40))
-// 	console.log("Amount of balls: " + ballArray.length);
-// }
-
-// function movementBall(ball_xVelocity, ball_yVelocity) {
-// 	for (var i = 0; i < ballArray.length; i++) {
-// 		ballArray[i].move(ball_xVelocity, ball_yVelocity);
-// 		ballArray[i].show();
-// 		ballArray[i].bounce();
-// 	}
-
-// }
-
-// class Ball {
-// 	constructor(x, y, r) {
-// 		this.x = x;
-// 		this.y = y;
-// 		this.r = r;
-// 	}
-// 	move(ball_xVelocity, ball_yVelocity) {
-// 		this.x = this.x + random(-1 * ball_xVelocity, ball_xVelocity);
-// 		this.y = this.y + random(-1 * ball_yVelocity, ball_yVelocity);
-// 	}
-// 	show() {
-// 		stroke(color(random(0, 255), random(0, 255), random(0, 255)));
-// 		strokeWeight(4);
-// 		noFill();
-// 		ellipse(this.x, this.y, this.r);
-// 	}
-// 	bounce() {
-// 		if (this.y > (height - this.r)) {
-// 			this.y = height - this.r;
-// 		} else if (this.y < this.r) {
-// 			this.y = this.r;
-// 		}
-// 		if (this.x < this.r) {
-// 			this.x = this.r;
-// 		} else if (this.x > (width - this.r)) {
-// 			this.x = width - this.r;
-// 		}
-// 	}
-// }
-
-// //set flag to false
-// //loop these array of balls
-// //if you hit a ball
-// // * +1 to hits
-// // * set flag to true
-// //	if flag is still false
-// // 		* add 1 to misses
-// //
-// // distancetoball = dist(this.posX, this.posY, mouseX, mouseY )
-// // if (distancetoball) > this.dia/2
-// // 		you missed
-// //
-// //
+	//Randomized range of velocity - between these numbers
+	VELRANGE = [11,10,9,8,7, -7, -8, -9,-10,-11];
+	NUMOFBALLS = 12;
+}

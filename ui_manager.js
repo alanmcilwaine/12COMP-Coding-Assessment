@@ -3,7 +3,7 @@ function setup(){
 	fb_initialise(); // Connect to firebase
 	fb_login();
 	gameCanvas = createCanvas(0,0);
-	frameRate(5);
+	frameRate(60);
 };
 
 function draw(){
@@ -24,7 +24,7 @@ function b_bouncingBall(){
 };
 
 function b_gameBack(){
-	bb_leave();
+	bb_reset();
 	document.getElementById("b_startButton").innerHTML = "Start";
 	ui_switchScreen("s_gamePage", "s_homePage");
 };

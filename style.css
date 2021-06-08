@@ -2,7 +2,9 @@
 #b_admin{
 	display:none;
 }
-
+#p_gameStatus{
+	font-size: 140%;
+}
 nav{
 	background-color: #e3f2fd;
 }
