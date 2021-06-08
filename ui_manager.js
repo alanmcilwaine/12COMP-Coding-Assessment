@@ -29,6 +29,12 @@ function b_gameBack(){
 	ui_switchScreen("s_gamePage", "s_homePage");
 };
 
+function b_leaderboardRun(){
+	fb_createLeaderboard(BBDETAILS, 5);
+	ui_switchScreen("s_homePage", "s_leaderboardPage");
+
+}
+
 function ui_switchScreen(_switchFrom, _switchTo){
 	document.getElementById("h_name").innerHTML = userDetails.name;
 	document.getElementById("i_userImage").src = userDetails.photoURL;

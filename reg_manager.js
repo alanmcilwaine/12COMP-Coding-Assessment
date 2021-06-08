@@ -11,7 +11,7 @@ function reg_regDetailsEntered() {
   // Save player1's details from the form into your details object
   //  ENSURE THE OBJECT NAME THE PROGRAM SAVES TO IS CORRECT;
   //    its currently details
-  userDetails.username     =        reg_getFormItemValue("f_register", 0);
+  userStats.username     =        reg_getFormItemValue("f_register", 0);
   userDetails.phone        = Number(reg_getFormItemValue("f_register",2));
 	userDetails.age = Number(reg_getFormItemValue("f_register", 1))
   userDetails.gender = reg_getFormItemValue("f_register", 3);
@@ -21,8 +21,9 @@ function reg_regDetailsEntered() {
   userDetails.city = reg_getFormItemValue("f_register", 7);
   userDetails.postCode = Number(reg_getFormItemValue("f_register", 8));
   console.table(userDetails);
+	console.table(userStats);
 
-	var regEx_username = reg_validate(userDetails.username, NAMEREGEX);
+	var regEx_username = reg_validate(userStats.username, NAMEREGEX);
 	if(regEx_username){
 		console.log("Validation: Username passed");
 		document.querySelector("#i_username").setCustomValidity("");
@@ -44,6 +45,7 @@ function reg_regDetailsEntered() {
 		console.log("Validation failed: Registration");
 	}else{
 		fb_writeRec(USERDETAILS, userDetails.uid, userDetails);
+		fb_writeRec(BBDETAILS, userDetails.uid, userStats.username);
 		console.log("Name: " + userDetails.name);
 		ui_switchScreen("s_registerPage", "s_homePage");
 	}

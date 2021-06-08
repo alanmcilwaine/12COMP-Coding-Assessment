@@ -15,7 +15,6 @@ var userDetails = {
   email:    '',
   name:     '',
   photoURL: '',
-  username: '',
 	age: '',
   phone: '',
   gender: '',
@@ -28,6 +27,7 @@ var userDetails = {
 
 var userStats = {
   highScore: '',
+	username: '',
 };
 
 var dbArray = [];
@@ -227,7 +227,7 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 	_data.name = dbData.name;
 	_data.email = dbData.email;
 	_data.photoURL = dbData.photoURL;
-	_data.username = dbData.username;
+	// _data.username = dbData.username;
 	_data.phone = dbData.phone;
 	_data.gender = dbData.gender;
 	_data.country = dbData.country;
@@ -245,13 +245,38 @@ function fb_userGameDetailsProcess(_result, _userDetails, _data) {
 	var dbData = _userDetails.val();
 	if (_result == "No record"){
 		userStats.highScore = Number(0);
+		userStats.username = 
 		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
 	}else{
 	_data.highScore = dbData.highScore;
+	_data.username = dbData.username;
 	}
 
 }
 
+function fb_createLeaderboard(_path, _num){
+	ref = firebase.database().ref(_path).orderByChild("highScore").limitToLast(_num);
+	ref.once("value", gotData, readErr);
+
+	function gotData(snapshot) {
+		if (snapshot.val() == null) {
+			console.log("No record");
+		}else{
+			snapshot.forEach(function (childSnapshot){
+				var childKey = childSnapshot.key;
+				var childData = childSnapshot.val();
+				document.getElementById("t_score" + _num).innerHTML = childData.highScore;
+				document.getElementById("t_username" + _num).innerHTML = childData.username;
+				console.log(childData)
+			});
+		}
+	}
+
+	function readErr(error) {
+	readStatus = false;
+	console.log(error);
+	}
+}
 
 /**************************************************************/
 //    END OF MODULE

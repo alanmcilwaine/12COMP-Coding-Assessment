@@ -39,6 +39,7 @@ v3 improved registration read/write to database  -->
 	<script defer src="/ad_manager.js"></script>
 	<script defer src="/reg_manager.js"></script>
 	<script defer src="/bb_manager.js"></script>
+	<script defer src="/ld_manager.js"></script>
 </head>
 
 <!-- Body -->
@@ -61,6 +62,7 @@ v3 improved registration read/write to database  -->
 					<form class="form-inline">
 						<button type="button" class="btn btn-success" onclick="b_bouncingBall()">Bouncing Ball</button>
 						<button type="button" class="btn btn-warning" id="b_admin" onclick="ad_admin()">Admin</button>
+						<button type="button" class="btn btn-info" id="b_leaderboard" onclick="b_leaderboardRun()">Leaderboard</button>
 						<button type="button" class="btn btn-danger" id="b_logout" onclick="fb_logout()">Logout</button>
 					</form>
 				</nav>
@@ -129,7 +131,38 @@ v3 improved registration read/write to database  -->
 	  </div>
     </div>
   </section>
-
+<!-- Leaderboard Page -->
+		<section id="s_leaderboardPage">
+						
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Score</th>
+						<th scope="col">Username</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<td><p id="t_score1"></p></td>
+						<td><p id="t_username1"></p></td>
+					</tr>
+					<tr>
+						<th scope="row">2</th>
+						<td>Jacob</td>
+						<td>Thornton</td>
+						<td>@fat</td>
+					</tr>
+					<tr>
+						<th scope="row">3</th>
+						<td>Larry</td>
+						<td>the Bird</td>
+						<td>@twitter</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 <!-- Game Page -->
 		<section id="s_gamePage">
 			<h1 class="hHeight">Game Page</h1>
