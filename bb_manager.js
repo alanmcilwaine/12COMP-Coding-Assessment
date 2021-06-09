@@ -2,11 +2,12 @@
 // fb_io.js
 // Written by Alan McIlwaine 2021
 /**************************************************************/
-//Number of balls on screen
-var NUMOFBALLS = 10;
-//Randomized range of velocity - between these numbers
-var VELRANGE = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
 
+
+//Number of balls on screen
+var numOfBalls = 10;
+//Randomized range of velocity - between these numbers
+var velRange = [9, 8, 7, 6, 5, -5, -6, -7, -8, -9];
 //variables
 var bb_startFlag = false;
 var gameCanvas;
@@ -34,8 +35,8 @@ class Ball {
 		this.x = width / 2;
 		this.y = height / 2;
 		this.r = _r;
-		this.velocityX = random(VELRANGE);
-		this.velocityY = random(VELRANGE);
+		this.velocityX = random(velRange);
+		this.velocityY = random(velRange);
 		this.colour = random(10,245), random(10,245), random(10,245);
 	}
 	//
@@ -111,7 +112,7 @@ function bb_start() {
 		bb_reset();
 		bb_startFlag = true;
 		//Create NUMOFBALLS amount of balls
-		for (i = 0; i < NUMOFBALLS; i++) {
+		for (i = 0; i < numOfBalls; i++) {
       ballsArray.push(new Ball(80));
 		}
 		bb_timer = setInterval(bb_gameTimer, 1000);
@@ -280,7 +281,8 @@ function bb_easy(){
 	bb_hardMode = false;
 
 	//Randomized range of velocity - between these numbers
-	VELRANGE = [7, 6, 5, -5, -6, -7,];
+	velRange = [7, 6, 5, -5, -6, -7,];
+	numOfBalls = 10;
 }
 function bb_medium(){
 	console.log("Medium Difficulty")
@@ -289,8 +291,8 @@ function bb_medium(){
 	bb_hardMode = false;
 
 	//Randomized range of velocity - between these numbers
-	VELRANGE = [9,8,7, 6,-6, -7,];
-	NUMOFBALLS = 12;
+	velRange = [9,8,7, 6,-6, -7,];
+	numOfBalls = 12;
 }
 function bb_hard(){
 	console.log("Hard Difficulty")
@@ -299,6 +301,6 @@ function bb_hard(){
 	bb_hardMode = true;
 
 	//Randomized range of velocity - between these numbers
-	VELRANGE = [11,10,9,8,7, -7, -8, -9,-10,-11];
-	NUMOFBALLS = 12;
+	velRange = [11,10,9,8,7, -7, -8, -9,-10,-11];
+	numOfBalls = 12;
 }
