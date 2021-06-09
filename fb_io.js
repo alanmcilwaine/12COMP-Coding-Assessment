@@ -228,7 +228,6 @@ function fb_userDetailsProcess(_result,_userDetails, _data) {
 	_data.name = dbData.name;
 	_data.email = dbData.email;
 	_data.photoURL = dbData.photoURL;
-	// _data.username = dbData.username;
 	_data.phone = dbData.phone;
 	_data.gender = dbData.gender;
 	_data.country = dbData.country;
@@ -252,13 +251,13 @@ function fb_userGameDetailsProcess(_result, snapshot, _data) {
 	var dbData = snapshot.val();
 	//Run if user has no game records
 	if (_result == "No record"){
-	//Writes their high score as 0 if they don't have a record
+	//If they don't have a record, their highScore is set to 0
 		userStats.highScore = Number(0); 
-		fb_writeRec(BBDETAILS, userDetails.uid, userStats);
 	}else{
 	//Run if user has a game record. Save it to object userStats
 	_data.highScore = dbData.highScore;
 	_data.username = dbData.username;
+	console.table(userStats);
 	}
 
 }

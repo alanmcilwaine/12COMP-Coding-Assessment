@@ -129,8 +129,8 @@ function ad_processUSERReadAll(_result, _dbRec) {
 			//  MATCH YOUR FIREBASE RECORDS FOR THE PATH                       //<=======
 			ad_adminArray.push({
 				name: childData.name,
-				email: childData.email,
 				username: childData.username,
+				email: childData.email,
 				phone: childData.phone,
 				age: childData.age,
 				gender: childData.gender,
@@ -178,7 +178,8 @@ function ad_processBBReadAll(_result, _dbRec) {
 			//  MATCH YOUR FIREBASE RECORDS FOR THE PATH                       //<=======
 			ad_adminArray.push({
 				uid: childKey,
-				hits: childData.highScore
+				highScore: childData.highScore,
+				username: childData.username
 			});
 		});
 
@@ -188,7 +189,7 @@ function ad_processBBReadAll(_result, _dbRec) {
 		//  8 = DATABASE PATH THE RECORDS WERE READ FROM.                    //<=======
 		ad_displayAll("t_userData", ad_adminArray, true, "", "", "",
 			1, BBDETAILS);                                                //<=======
-	} else if (_result == 'n/a') {
+	} else if (_result == 'No record') {
 		ad_displayAll("t_userData", ad_adminArray, true, "", "", "",
 			1, BBDETAILS);                                                //<=======
 	}
@@ -218,16 +219,7 @@ function ad_userInput(_feildName, _data) {
 		city: 'a',
 		postCode: 'n',
 		uid: 'b',
-
-		BBLevel: 'n',
-		BBFails: 'n',
-		BBHits: 'n',
-		BBMiss: 'n',
-		BBTime: 'n',
-
-		TTWin: 'a',
-		TTTLoss: 'n',
-		TTTTime: 'n'
+		highScore: 'n',
 	};
 
 	if (vd_dataTypes[_feildName] == 'n') {

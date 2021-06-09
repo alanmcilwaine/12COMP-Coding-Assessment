@@ -174,14 +174,13 @@ function bb_draw(){
 	background(200);
 	//Checks where mouse clicks are on the canvas
 	gameCanvas.mousePressed(bb_ballClicked);
-	console.log(ballsArray.length)
 	//Every active ball to show and move
 	for (var i = 0; i < ballsArray.length; i++) {
 	ballsArray[i].move()
 	ballsArray[i].show()
 	}
 	//If there are no balls left, win
-	if (ballsArray.length == 0){
+	if (ballsArray.length == 0 && 	button.innerHTML == "Stop"){
 		bb_win();
 		bb_startFlag = false;
 	}	
